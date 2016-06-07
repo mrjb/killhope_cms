@@ -28,7 +28,7 @@ Authentication Error: Your CIS account is not authorised to view this page.
 		<meta name="generator" content="Bootply" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="assets/css/bootstrap.min.css" rel="stylesheet">
 		<!--[if lt IE 9]>
 			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
@@ -102,10 +102,10 @@ Authentication Error: Your CIS account is not authorised to view this page.
 
 
 	<!-- script references -->
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
-		<script src="js/bootstrap.min.js"></script>
-      <script src="js/jsoneditor.min.js"></script>
-		<script src="js/schema.js"></script>  <!-- Stores the schema for each type of data -->
+		<script src="assets/js/jquery.js"></script>
+		<script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/jsoneditor.min.js"></script>
+		<script src="assets/js/schema.js"></script>  <!-- Stores the schema for each type of data -->
 		<script type="text/javascript">
 
 //------------------------------------------------------------------------------
@@ -157,7 +157,7 @@ function openNormalPage( formSchema, file ){
 	//Enable the revert to original button.
 	$('#revert-original').click( function(){
 		if( confirm("Are you sure?\nThis will set the form's data back to factory settings.\nIF YOU THEN CLICK \"SAVE\", ALL PREVIOUSLY SAVED DATA CHANGES WILL BE LOST.") ){
-			$.getJSON("data/original/"+file, function(json) {
+			$.getJSON("assets/data/original/"+file, function(json) {
 				editor.setValue(json);
 			});
 		}
@@ -216,7 +216,7 @@ function openMineralPage(){
 	//Enable the download JSON button. 
 	$('#download-json').attr('href',filePath);
 
-	//Enable the revert to original button.
+	//Enable the revert to last save button.
 	$('#revert-last-save').click( function(){
 		if( confirm("Are you sure?\nYou will lose changes made since the last save.") ){
 			$.getJSON(filePath, function(json) {
@@ -228,7 +228,7 @@ function openMineralPage(){
 	//Enable the revert to original button.
 	$('#revert-original').click( function(){
 		if( confirm("Are you sure?\nThis will set the form's data back to factory settings.\nIF YOU THEN CLICK \"SAVE\", ALL PREVIOUSLY SAVED DATA CHANGES WILL BE LOST.") ){
-			$.getJSON("data/original/MineralData.json", function(json) {
+			$.getJSON("assets/data/original/MineralData.json", function(json) {
 				editor.setValue(json[mineralID]);
 			});
 		}
@@ -353,7 +353,7 @@ function openQuizPage(){
 	$('#revert-original').click( function(){
 		if( confirm("Are you sure?\nThis will set the form's data back to factory settings.\nIF YOU THEN CLICK \"SAVE\", ALL PREVIOUSLY SAVED DATA CHANGES WILL BE LOST.") ){
 			//If the quiz is a new quiz, change the revert to orginal button to a "delete new quiz" button
-			$.getJSON("data/original/QuizData.json", function(json) {
+			$.getJSON("assets/data/original/QuizData.json", function(json) {
 				completeData = json;
 				quizID = 0;
 				editor.setValue(completeData.quizzes[quizID]);
