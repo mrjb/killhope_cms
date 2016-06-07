@@ -23,10 +23,6 @@ var pngquant = require('imagemin-pngquant');
 var optipng = require('imagemin-optipng');
 var jpegoptim = require('imagemin-jpegoptim');
 
-// ** SETTINGS ** //
-var production = !!(argv.production);
-// To build production site, run: gulp --production
-
 //TASK: CLEAN
 gulp.task('clean', function() {
   return del([
@@ -45,7 +41,7 @@ gulp.task('jshint', function() {
 gulp.task('js', ['jshint'], function() {
 	return gulp.src( mainBowerFiles().concat(['custom_src/*.js', 'custom_src/**/*.js']) )
 		.pipe(filter('*.js'))
-    .pipe(gulpif(production, uglify()))
+    .pipe(uglify())
     .pipe(gulp.dest('assets/js/'));
 });
 
