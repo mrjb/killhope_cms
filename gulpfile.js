@@ -85,7 +85,7 @@ gulp.task( 'data', function(){
 
 gulp.task( 'glyphicons', function(){
   return gulp.src(['bower_components/bootstrap-css/fonts/*'])
-    .pipe(gulp.dest('assets/fonts/*'));
+    .pipe(gulp.dest('assets/fonts/'));
 });
 
 // DEFAULT TASK
