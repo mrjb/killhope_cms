@@ -1,0 +1,23 @@
+{
+  "name": "kilhope_cms",
+  "version": "1.0.0",
+  "homepage": "https://github.com/mrjb/killhope_cms",
+  "authors": [
+    "Jonathan Berry <jonathan.s.berry@gmail.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.2.4",
+    "bootstrap-css": "~3.3.6",
+    "json-editor": "~0.7.25",
+    "SCEditor": "~1.4.7"
+  }
+}

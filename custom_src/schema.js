@@ -42,7 +42,7 @@ var glossary_schema = {
 			}
 		} 
 	}
-}
+};
 
 var quiz_schema = {
   "type":"object",
@@ -65,12 +65,11 @@ var quiz_schema = {
       "options":{"disable_collapse":true},
       "items":{
         "type":"object",
-	"options":{
-	  "disable_properties":true,
-          "disable_edit_json":true,
-          "disable_properties":true,
-          "disable_collapse":true
-	},
+	      "options":{
+                "disable_edit_json":true,
+                "disable_properties":true,
+                "disable_collapse":true
+	      },
         "headerTemplate": "Question {{ i1 }}",
         "properties":{
           "question":{"type":"string", "title":"Question"},
@@ -84,7 +83,6 @@ var quiz_schema = {
               "options":{
                 "disable_properties":true,
                 "disable_edit_json":true,
-                "disable_properties":true,
                 "disable_collapse":true
               },
               "properties":{
@@ -102,7 +100,7 @@ var quiz_schema = {
       }
     }
   }
-}
+};
 
 var trail_schema = {
   "definitions":{
@@ -153,7 +151,7 @@ var trail_schema = {
       }
     }
   }
-}
+};
 
 var mineral_schema = {
   "definitions":{
@@ -207,4 +205,4 @@ var mineral_schema = {
     }
 
   }
-}
+};
