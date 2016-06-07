@@ -1,4 +1,9 @@
 <?php
+
+//Set things up for development/deployment.
+if( file_exists("setup.php")) include 'setup.php';
+
+
 //Check that the CIS user is an allowed user.
 $users = array('gkvc57', 'dcs0www', 'dcs0sad', 'dch1hcg');
 if( !in_array( $_SERVER['REMOTE_USER'], $users ) ){
@@ -32,7 +37,7 @@ Authentication Error: Your CIS account is not authorised to view this page.
 		<!--[if lt IE 9]>
 			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
-		<link href="css/custom.css" rel="stylesheet">
+		<link href="assets/css/custom.css" rel="stylesheet">
 	</head>
 	<body>
 <div class="navbar navbar-default navbar-static-top">
@@ -43,7 +48,7 @@ Authentication Error: Your CIS account is not authorised to view this page.
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <img src="images/logo.png" id="nav-logo" class="img-responsive2"/>
+      <img src="assets/img/logo.png" id="nav-logo" class="img-responsive2"/>
 
     </div>
     <!--<div class="collapse navbar-collapse">
