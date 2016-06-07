@@ -1,0 +1,53 @@
+{
+  "definitions":{
+    "stage":{
+      "type":"array",
+      "options":{"collapsed":true},
+      "items":{
+        "type":"object",
+        "options":{
+          "disable_edit_json":true,
+          "disable_properties":true,
+          "collapse":true 
+        },
+        "headerTemplate":"{{self.title}}",
+        "properties":{
+          "title":{"type":"string"},
+          "info":{"type":"string"}
+        }
+      }    
+    }
+  },
+  "type":"object",
+  "headerTemplate":"Edit {{self.name}}",
+  "options":{"disable_properties":true, "disable_collapse":true},
+  "properties":{
+    "name":{"type":"string"},
+    "formula":{"type":"string"},
+    "3dcrystal":{"type":"string", "options":{"hidden":true}, "default":"mineral_ankerite_gif"},
+    "qrcode":{"type":"string", "options":{"hidden":true}, "default":"killhope_museum_mineral_ankerite"},
+    "images":{
+      "type":"array", 
+      "options":{"hidden":true}, 
+      "items":{"type":"string"}, 
+      "default":["mineral_ankerite_image_1"]
+    },
+    "stage1":{
+      "title": "Stage 1",
+      "$ref": "#/definitions/stage"
+    },
+    "stage2":{
+      "title": "Stage 2",
+      "$ref": "#/definitions/stage"
+    },
+    "stage3":{
+      "title": "Stage 3",
+       "$ref": "#/definitions/stage"
+    },
+    "stage4":{
+      "title": "Stage 4",
+      "$ref": "#/definitions/stage"
+    }
+
+  }
+}

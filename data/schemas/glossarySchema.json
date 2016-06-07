@@ -1,0 +1,45 @@
+{
+	"definitions":{
+		"word":{
+			"type":"object",
+			"properties":{
+				"word": {"type":"string"},
+				"definition": {"type":"string"},
+				"Types":{
+					"type":"array",
+					"items":{
+						"$ref": "#/definitions/word"
+					}
+				}
+			},
+			"title":"Word",
+			"headerTemplate": "{{ i1 }} - {{ self.word}}",
+			"required": ["word", "definition"],
+			"defaultProperties": ["word", "definition"],
+			"options":{
+				"disable_edit_json":true,
+				"disable_collapse":true
+			}
+		}
+	},
+	"title":"Edit",
+	"type":"object",
+	"options":{
+		"disable_collapse":true,
+		"disable_edit_json":true,
+		"disable_properties":true
+	},
+	"properties":{
+		"glossary":{
+			"title": "Glossary",
+			"type":"array",
+			"format":"tabs",
+			"options":{
+				"disable_collapse":true
+			},
+			"items":{
+				"$ref": "#/definitions/word"
+			}
+		} 
+	}
+}
