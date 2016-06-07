@@ -69,7 +69,8 @@ Authentication Error: Your CIS account is not authorised to view this page.
         <p class="lead">Select below the type of content change you wish to make.</p>
         <p class="lead"> <button class="btn btn-primary btn-lg" id="minDat"> Mineral Data </button></p>
         <p class="lead"> <button class="btn btn-primary btn-lg" id="glosDat"> Glossary Data </button> </p>
-<p class="lead"> <button class="btn btn-primary btn-lg" id="quizzesDat"> Quiz Data </button></p>
+        <p class="lead"> <button class="btn btn-primary btn-lg" id="quizzesDat"> Quiz Data </button></p>
+        <p class="lead"> <button class="btn btn-primary btn-lg" id="trailsDat"> Trail Data </button></p>
   </div>
 </div><!-- /.container -->
 
@@ -81,7 +82,7 @@ Authentication Error: Your CIS account is not authorised to view this page.
 	<div id="rhs-buttons" class="btn-group">
 		<a id="revert-original" class="btn btn-lg btn-danger"> Revert to Original </a>
 		<a id="revert-last-save" class="btn btn-lg btn-warning"> Revert to Last Save </a>
-		<a id="download-json" class="btn btn-lg btn-primary" target="_blank"> Download JSON </a>
+		<a id="download-json" class="btn btn-lg btn-primary" target="_blank"> Download Data </a>
 		<a id="save-changes" class="btn btn-lg btn-success"> <span id="floppy-icon" class="glyphicon glyphicon-floppy-disk"></span> Save Changes </a>
 	</div>
 </div>
@@ -100,17 +101,15 @@ Authentication Error: Your CIS account is not authorised to view this page.
     </p>
   </div>
 </footer>
-
-<div style="display:none"><script language="javascript" type="text/javascript" src="http://js.users.51.la/18778928.js"></script></div>
 </body>
 </html>
 
 
 	<!-- script references -->
-		<script src="assets/js/jquery.js"></script>
-		<script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jsoneditor.min.js"></script>
-		<script src="assets/js/schema.js"></script>  <!-- Stores the schema for each type of data -->
+		<script src="assets/js/jquery.js" type="text/javascript"></script>
+		<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="assets/js/jsoneditor.js" type="text/javascript"></script>
+		<script src="assets/js/schema.js" type="text/javascript"></script>  <!-- Stores the schema for each type of data -->
 		<script type="text/javascript">
 
 //------------------------------------------------------------------------------
@@ -134,7 +133,7 @@ function openNormalPage( formSchema, file ){
 	var editor = new JSONEditor(element, {no_additional_properties:true, schema:formSchema});
 
 	// Get the saved JSON data and set the editor to equal it.
-  $.ajaxSetup({ cache: false });
+   $.ajaxSetup({ cache: false });
 	$.getJSON( filePath, function(json) {
 		editor.setValue(json)		
 	});
@@ -150,7 +149,7 @@ function openNormalPage( formSchema, file ){
 	//Enable the download JSON button. 
 	$('#download-json').attr('href',filePath);
 
-	//Enable the revert to last save.
+	//Enable the revert to original button.
 	$('#revert-last-save').click( function(){
 		if( confirm("Are you sure?\nYou will lose changes made since the last save.") ){
 			$.getJSON(filePath, function(json) {
@@ -162,7 +161,7 @@ function openNormalPage( formSchema, file ){
 	//Enable the revert to original button.
 	$('#revert-original').click( function(){
 		if( confirm("Are you sure?\nThis will set the form's data back to factory settings.\nIF YOU THEN CLICK \"SAVE\", ALL PREVIOUSLY SAVED DATA CHANGES WILL BE LOST.") ){
-			$.getJSON("assets/data/original/"+file, function(json) {
+			$.getJSON("data/original/"+file, function(json) {
 				editor.setValue(json);
 			});
 		}
@@ -178,7 +177,7 @@ function openNormalPage( formSchema, file ){
 }
 
 function openMineralPage(){
-	var filePath = "../../data/MineralData.json";
+	var filePath = "../data/MineralData.json";
 
 	$('#change-type').hide();
    $('.above-form ').show();
@@ -221,7 +220,7 @@ function openMineralPage(){
 	//Enable the download JSON button. 
 	$('#download-json').attr('href',filePath);
 
-	//Enable the revert to last save button.
+	//Enable the revert to original button.
 	$('#revert-last-save').click( function(){
 		if( confirm("Are you sure?\nYou will lose changes made since the last save.") ){
 			$.getJSON(filePath, function(json) {
@@ -233,7 +232,7 @@ function openMineralPage(){
 	//Enable the revert to original button.
 	$('#revert-original').click( function(){
 		if( confirm("Are you sure?\nThis will set the form's data back to factory settings.\nIF YOU THEN CLICK \"SAVE\", ALL PREVIOUSLY SAVED DATA CHANGES WILL BE LOST.") ){
-			$.getJSON("assets/data/original/MineralData.json", function(json) {
+			$.getJSON("data/original/MineralData.json", function(json) {
 				editor.setValue(json[mineralID]);
 			});
 		}
@@ -264,21 +263,21 @@ function openQuizPage(){
 	var quizID = 0;
 
 	function createDropdown(){
-		$('#quizSelector').remove();
+		$('#itemSelector').remove();
 //Create the quiz selector
-		var dropDown = "<div class='dropdown' id='quizSelector'><button class='btn btn-default btn-lg dropdown-toggle' type='button' data-toggle='dropdown' class='quizSelect'> Quiz <span class='caret'></span></button><ul class='dropdown-menu'>";
+		var dropDown = "<div class='dropdown' id='itemSelector'><button class='btn btn-default btn-lg dropdown-toggle' type='button' data-toggle='dropdown' class='itemSelect'> Quiz <span class='caret'></span></button><ul class='dropdown-menu'>";
 
 		for( var i = 0; i< completeData.quizzes.length; i++ ){
-			dropDown = dropDown + "<li><a href='#' class='quizSelect'  quizid='"+i+"'>"+completeData.quizzes[i].name+"</a><a href='#' data-toggle='tooltip' title='Delete this quiz' class='quizDelete' quizid='"+i+"'><span class='glyphicon glyphicon-remove'></span> </a></li>";
+			dropDown = dropDown + "<li><a href='#' class='itemSelect'  quizid='"+i+"'>"+completeData.quizzes[i].name+"</a><a href='#' data-toggle='tooltip' title='Delete this quiz' class='itemDelete' quizid='"+i+"'><span class='glyphicon glyphicon-remove'></span> </a></li>";
 		}
 
 		dropDown = dropDown + "<li class='divider'></li>";
-		dropDown = dropDown + "<li><a href='#' class='newQuiz quizSelect'  quizid='-1'>New Quiz</a> </li>";
+		dropDown = dropDown + "<li><a href='#' class='newItem itemSelect'  quizid='-1'>New Quiz</a> </li>";
 		dropDown = dropDown +"</ul></div>";
 		$('#lhs-btns').append(dropDown);	
 
 		//Listen to the quiz selector.
-		$( '.quizSelect' ).on( 'click', function(){
+		$( '.itemSelect' ).on( 'click', function(){
 			qID = $(this).attr('quizid');
 			quizID = qID
 			if( qID == -1 ){
@@ -291,7 +290,7 @@ function openQuizPage(){
 		}); 
 
 		//Listen to the quiz selector.
-		$( '.quizDelete' ).on( 'click', function(){	
+		$( '.itemDelete' ).on( 'click', function(){	
 	
 			if( completeData.quizzes.length == 1 ){
 				alert( "You cannot delete all quizzes.  At least one quiz must remain available at all times." );
@@ -306,9 +305,9 @@ function openQuizPage(){
 		});
 	}
 	
-		// Get the saved JSON data and set the editor to equal it.
-   	$.ajaxSetup({ cache: false });
-		$.getJSON( filePath, function(json) {
+	// Get the saved JSON data and set the editor to equal it.
+   $.ajaxSetup({ cache: false });
+	$.getJSON( filePath, function(json) {
 
 		//Save the complete data and set the form values to the initial quiz.
 		completeData = json;
@@ -358,7 +357,7 @@ function openQuizPage(){
 	$('#revert-original').click( function(){
 		if( confirm("Are you sure?\nThis will set the form's data back to factory settings.\nIF YOU THEN CLICK \"SAVE\", ALL PREVIOUSLY SAVED DATA CHANGES WILL BE LOST.") ){
 			//If the quiz is a new quiz, change the revert to orginal button to a "delete new quiz" button
-			$.getJSON("assets/data/original/QuizData.json", function(json) {
+			$.getJSON("data/original/QuizData.json", function(json) {
 				completeData = json;
 				quizID = 0;
 				editor.setValue(completeData.quizzes[quizID]);
@@ -376,16 +375,140 @@ function openQuizPage(){
 	
 }
 
+function openTrailPage(){
+
+	var filePath = "../../data/TrailData.json";
+
+	$('#change-type').hide();
+    $('.above-form ').show();
+
+	// Initialize the editor
+	var editor = new JSONEditor(element, {no_additional_properties:true, schema:trail_schema});
+	var completeData = {};
+	var trailID = 0;
+
+	function createDropdown(){
+		$('#itemSelector').remove();
+//Create the quiz selector
+		var dropDown = "<div class='dropdown' id='itemSelector'><button class='btn btn-default btn-lg dropdown-toggle' type='button' data-toggle='dropdown' class='itemSelect'> Trail <span class='caret'></span></button><ul class='dropdown-menu'>";
+
+		for( var i = 0; i< completeData.trails.length; i++ ){
+			dropDown = dropDown + "<li><a href='#' class='itemSelect'  trailid='"+i+"'>"+completeData.trails[i].name+"</a><a href='#' data-toggle='tooltip' title='Delete this quiz' class='itemDelete' trailid='"+i+"'><span class='glyphicon glyphicon-remove'></span> </a></li>";
+		}
+
+		dropDown = dropDown + "<li class='divider'></li>";
+		dropDown = dropDown + "<li><a href='#' class='newItem itemSelect'  trailid='-1'>New Trail</a> </li>";
+		dropDown = dropDown +"</ul></div>";
+		$('#lhs-btns').append(dropDown);	
+
+		//Listen to the quiz selector.
+		$( '.itemSelect' ).on( 'click', function(){
+			tID = $(this).attr('trailid');
+			trailID = tID
+			if( tID == -1 ){
+				console.log("hit");
+				editor.destroy();
+				editor = new JSONEditor(element, {no_additional_properties:true, schema:trail_schema});
+			}else{
+				editor.setValue(completeData.trails[tID]);
+			}
+		}); 
+
+		//Listen to the quiz selector.
+		$( '.itemDelete' ).on( 'click', function(){	
+	
+			if( completeData.trails.length == 1 ){
+				alert( "You cannot delete all trails.  At least one trail must remain available at all times." );
+			}else{
+				tID = $(this).attr('trailid');
+				if( confirm( "Are you sure? The trail will be lost forever.\nConsider setting the trail property 'published' to false if you may wish to use the trail again.\nIf you click 'yes', the trail '" + completeData.trails[tID].name + "' will be deleted and you will be directed back to the home page."  )){
+					tID = $(this).attr('trailid');
+					completeData.trails.splice(tID,1);
+					createDropdown();
+				}
+			}
+		});
+	}
+	
+	// Get the saved JSON data and set the editor to equal it.
+    $.ajaxSetup({ cache: false });
+	$.getJSON( filePath, function(json) {
+
+		//Save the complete data and set the form values to the initial quiz.
+		completeData = json;
+		editor.setValue(completeData.trails[trailID]);
+		createDropdown();
+
+	});
+	
+	//Show the buttons.
+ 	$('.above-form ').show();
+
+	//On the trail page we have to first insert the form's details into the complete data set.
+	//If the trail is a new trail, we have to add the trail to the data set.
+	$('#save-changes').click( function(){
+		if( trailID == -1 ){
+			trailID = completeData.trails.length;
+			completeData.trails[trailID] = editor.getValue();
+			createDropdown();
+		}else{
+			completeData.trails[trailID] = editor.getValue();
+		}
+		saveObject( filePath, completeData );
+		
+	});
+
+	//Enable the download JSON button. 
+	$('#download-json').attr('href',filePath);
+
+	//Enable the revert to original button.
+	$('#revert-last-save').click( function(){
+		if( confirm("Are you sure?\nYou will lose changes made since the last save.") ){
+			if( trailID==-1 ){
+				editor.destroy();
+				editor = new JSONEditor(element, {no_additional_properties:true, schema:trail_schema})
+			}else{
+				//If trying to revert to last save of a new trail, just empty the form.
+				$.getJSON(filePath, function(json) {
+						completeData = json;
+						editor.setValue(completeData.trails[trailID]);
+						createDropdown();	
+				});
+			}
+		}
+	});
+
+	//Enable the revert to original button.
+	$('#revert-original').click( function(){
+		if( confirm("Are you sure?\nThis will set the form's data back to factory settings.\nIF YOU THEN CLICK \"SAVE\", ALL PREVIOUSLY SAVED DATA CHANGES WILL BE LOST.") ){
+			//If the quiz is a new quiz, change the revert to orginal button to a "delete new quiz" button
+			$.getJSON("data/original/TrailData.json", function(json) {
+				completeData = json;
+				trailID = 0;
+				editor.setValue(completeData.trails[trailID]);
+				createDropdown();	
+			});
+		}
+	});
+
+	//Back to home button
+	$('#back-to-home').click( function() {
+		if( confirm("Are you sure?\nAny unsaved changes will be lost.") ){
+			location.reload(); 
+		}
+	});
+	
+}
+
 
 //-----FUNCTION----
 function saveObject(filePath, jsonObject){
-	console.log( JSON.stringify(jsonObject) );
 	var json = JSON.stringify(jsonObject);
 	var xhr = new XMLHttpRequest();
 	xhr.open('POST','writeJSON.php',true);
 	xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
 	xhr.send('json=' + json + '&file='+filePath);
-   xhr.onreadystatechange=function(){
+    xhr.onreadystatechange=function(){
 		if (xhr.readyState==4 && xhr.status==200){
 			alert("Object Saved");			
 		}
@@ -406,18 +529,12 @@ $('#quizzesDat').click( function() {
 });
 
 
+$('#trailsDat').click( function() {
+	openTrailPage( );
 });
 
 
-
-// Set the value
-//editor.setValue({
-//    name: "John Smith"
-//});
-
-// Get the value
-//var data = editor.getValue();
-//console.log(data.name); // "John Smith"
+}); //End document.ready
 
 		</script>
 

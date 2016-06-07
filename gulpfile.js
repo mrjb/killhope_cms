@@ -78,12 +78,17 @@ gulp.task('img', function(){
 });
 
 //TASK: Data
-gulp.task( 'files', function(){
+gulp.task( 'data', function(){
   return gulp.src(['custom_src/data/*'])
     .pipe(gulp.dest('assets/data'));
 });
 
+gulp.task( 'glyphicons', function(){
+  return gulp.src(['bower_components/bootstrap-css/fonts/*'])
+    .pipe(gulp.dest('assets/fonts/*'));
+});
+
 // DEFAULT TASK
 gulp.task('default', ['clean'], function() {
-  gulp.start('css', 'js', 'img', 'files');
+  gulp.start('css', 'js', 'img', 'data', 'glyphicons');
 });
