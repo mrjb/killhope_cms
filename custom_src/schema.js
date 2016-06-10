@@ -111,12 +111,27 @@ var trail_schema = {
         "disable_edit_json":true,
         "disable_properties":true
       },
-      "headerTemplate":"{{self.clue}}",
+      "headerTemplate":"Location {{ i1 }}",
       "properties":{
-        "clue":{"title": "Clue", "type":"string"},
+        "clue":{
+          "title": "Clue", 
+          "type": "string",
+          "format": "html",
+          "options": { "wysiwyg": true }
+        },
         "qrCode":{"title": "QR Encoded Text", "type":"string"},
-        "info":{"title": "More Information (shown upon scanning QR code)","type":"string"},
-        "hint":{"title": "Hint (optionally available before scanning QR code)", "type":"string"},
+        "info":{
+          "title": "More Information (shown upon scanning QR code)",
+          "type":"string",
+          "format": "html",
+          "options": { "wysiwyg": true }
+        },
+        "hint":{
+          "title": "Hint (optionally available before scanning QR code)", 
+          "type":"string",
+          "format": "html",
+          "options": { "wysiwyg": true }
+        }
       }  
     }
   },
@@ -135,7 +150,12 @@ var trail_schema = {
       "title":"Published (un-publish, instead of delete, when you wish to remove a trail from the app that you might need again in the future).", 
       "default":true
     },
-    "overview":{"type":"string", "title":"Trail Overview"},
+    "overview":{
+      "type":"string", 
+      "title":"Trail Overview", 
+      "format": "html",
+      "options": { "wysiwyg": true }
+    },
     "certificate_message":{
       "type": "string",
       "title": "Certificate Page Message (shown below the certificate once trail is completed)",

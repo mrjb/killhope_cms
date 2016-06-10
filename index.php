@@ -33,6 +33,7 @@ Authentication Error: Your CIS account is not authorised to view this page.
 		<meta name="generator" content="Bootply" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link href="assets/sce/minified/themes/default.min.css" rel="stylesheet">
 		<link href="assets/css/bootstrap.min.css" rel="stylesheet">
 		<!--[if lt IE 9]>
 			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -63,7 +64,8 @@ Authentication Error: Your CIS account is not authorised to view this page.
 <!-- Wrap all page content here -->
 <div id="wrap">
 <div class="container" id="change-type"> 
-	You are: <?php echo $_SERVER['REMOTE_USER'] ?>
+<?php phpinfo(); ?>
+	You are: <?php echo $_SERVER['REMOTE_USER'] ?> 
   <div class="text-center">
     <h1>What do you want to change?</h1>
         <p class="lead">Select below the type of content change you wish to make.</p>
@@ -106,8 +108,9 @@ Authentication Error: Your CIS account is not authorised to view this page.
 
 
 	<!-- script references -->
-		<script src="assets/js/jquery.js" type="text/javascript"></script>
+    <script src="assets/js/jquery.js" type="text/javascript"></script>
 		<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="assets/sce/minified/jquery.sceditor.min.js" type="text/javascript"></script>
     <script src="assets/js/jsoneditor.js" type="text/javascript"></script>
 		<script src="assets/js/schema.js" type="text/javascript"></script>  <!-- Stores the schema for each type of data -->
 		<script type="text/javascript">
@@ -120,6 +123,19 @@ $( document ).ready( function(){
 
 JSONEditor.defaults.theme = 'bootstrap3';
 JSONEditor.defaults.iconlib = 'bootstrap3';
+
+JSONEditor.plugins.sceditor.toolbar = 
+      'bold,italic,underline,strike,subscript,superscript|' +
+			'left,center,right,justify|size,removeformat|' +
+			'bulletlist,orderedlist,indent,outdent|' +
+			'table|horizontalrule,image,email,link,unlink|' +
+			'maximize,source';
+JSONEditor.plugins.sceditor.resizeWidth = false;
+JSONEditor.plugins.sceditor.width = "100%";
+JSONEditor.plugins.sceditor.height = 100;
+JSONEditor.plugins.sceditor.resizeMinHeight = 100;
+JSONEditor.plugins.sceditor.resizeMaxHeight = -1;
+
 
 var element = document.getElementById('form');
 
@@ -439,6 +455,9 @@ function openTrailPage(){
 		editor.setValue(completeData.trails[trailID]);
 		createDropdown();
 
+    //Hacky hack hack to get the SCEditors created in a hidden DOM element to have the correct size.
+    //There is a bug in SCEditor width calculations for editors nested inside a hidden DOM element.
+    $('.list-group-item').click( function() { $(window).resize(); });
 	});
 	
 	//Show the buttons.
@@ -533,8 +552,9 @@ $('#trailsDat').click( function() {
 	openTrailPage( );
 });
 
-
 }); //End document.ready
+
+
 
 		</script>
 

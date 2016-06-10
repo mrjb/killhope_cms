@@ -32,14 +32,14 @@ gulp.task('clean', function() {
 
 // TASK: JS Hint
 gulp.task('jshint', function() {
-  gulp.src(['custom_src/*.js','custom_src/**/*.js'])
+  gulp.src(['custom_src/*.js'])
     .pipe(jshint())
     .pipe(jshint.reporter('default'));
 });
 
 //TASK: JS Compiler
 gulp.task('js', ['jshint'], function() {
-	return gulp.src( mainBowerFiles().concat(['custom_src/*.js', 'custom_src/**/*.js']) )
+	return gulp.src( mainBowerFiles().concat(['custom_src/*.js']) )
 		.pipe(filter('*.js'))
     .pipe(uglify())
     .pipe(gulp.dest('assets/js/'));
@@ -47,11 +47,15 @@ gulp.task('js', ['jshint'], function() {
 
 //TASK: CSS Compiler
 gulp.task('css', function(){
-  return gulp.src(mainBowerFiles().concat(['custom_src/*.css', 'custom_src/**/*.css']))
+  return gulp.src(mainBowerFiles().concat(['custom_src/*.css']))
     .pipe( filter('*.css') )
     .pipe(gulp.dest('assets/css/'));
 });
 
+gulp.task('sce', function(){
+  return gulp.src( 'custom_src/sce/**/*' )
+    .pipe( gulp.dest( 'assets/sce/' ) );
+});
 
 //TASK: Images
 gulp.task('img', function(){
@@ -90,5 +94,5 @@ gulp.task( 'glyphicons', function(){
 
 // DEFAULT TASK
 gulp.task('default', ['clean'], function() {
-  gulp.start('css', 'js', 'img', 'data', 'glyphicons');
+  gulp.start('css', 'js', 'img', 'data', 'glyphicons', 'sce');
 });
