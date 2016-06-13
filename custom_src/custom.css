@@ -74,3 +74,92 @@ body {
 	float: none;
 }
 
+li.files{
+  position: relative;
+}
+li.files span.delete{
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  font-size: 20px;
+  color: white;
+  vertical-align: bottom;
+  padding: 15px;
+  background: #373743;
+  border-radius: 0 0 0 3px;
+  z-index:999999999;
+}
+
+#imageUploader{
+  margin-top:40px;
+  background: #373743;
+  color: white;
+  border-radius:3px;
+  border: dashed #888 2px;
+}
+
+#imageUploader.dz-drag-hover{
+  background:#42424E;
+  border: solid #FFF 2px;
+}
+
+.filemanager .breadcrumbs{
+  display: none;
+}
+
+.form-header{
+  width: 80%;
+  margin: 40px auto;
+  height: 200px;
+}
+
+#imageSelector{
+  margin-top:40px;
+  color: white;
+  border: solid #FFF 2px;
+  border-radius:3px;
+  min-height: 150px;
+}
+
+#imageSelector .row{
+  margin: 20px 0 0;
+}
+
+#imageSelector label{
+  
+}
+
+#imageSelector .dimensions input{
+  width: 40%;
+  margin-left: 15px;
+  color: #888;
+}
+
+.choose{
+  width: 80%;
+  margin: auto;
+  background: #373743;
+  color: white;
+  text-align: center;
+  margin-top:40px;
+  padding:20px;
+  border-radius: 3px; 
+  height: 150px;
+  position: relative;
+}
+
+.choose:hover{
+  background:#42424E;
+  cursor:pointer;
+}
+
+.choose span{
+  display: inline-block;
+  position:absolute;
+  top:35%;
+  width:100%;
+  text-align: center;
+  font-weight: bold;
+  left: 0px;
+}
+

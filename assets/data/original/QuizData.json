@@ -1,0 +1,502 @@
+{
+"quizzes":[{
+  "name":"Easy Quiz",
+  "ordering":1,
+  "published":true,
+  "questionList": [
+    {
+      "question": "What is the hardest mineral on display at Killhope?",
+      "correctAnswer": 0,
+      "answers": [
+        {
+          "answer": "Quartz"
+        },
+        {
+          "answer": "Baryte"
+        },
+        {
+          "answer": "Galena"
+        }
+      ],
+      "hint": "Hint"
+    },
+    {
+      "question": "Which grey mineral is an ore of lead?",
+      "correctAnswer": 1,
+      "answers": [
+        {
+          "answer": "Siderite"
+        },
+        {
+          "answer": "Galena"
+        },
+        {
+          "answer": "Sphalerite"
+        }
+      ],
+      "hint": "Hint"
+    },
+    {
+      "question": "What mineral was predominantly mined at Killhope?",
+      "correctAnswer": 0,
+      "answers": [
+        {
+          "answer": "Galena"
+        },
+        {
+          "answer": "Fluorite"
+        },
+        {
+          "answer": "Siderite"
+        }
+      ],
+      "hint": "Hint"
+    },
+    {
+      "question": "What is the most common mineral at the Killhope Museum?",
+      "correctAnswer": 1,
+      "answers": [
+        {
+          "answer": "Quartz"
+        },
+        {
+          "answer": "Fluorite"
+        },
+        {
+          "answer": "Smithsonite"
+        }
+      ],
+      "hint": "Hint"
+    },
+    {
+      "question": "What is a Spar Box?",
+      "correctAnswer": 0,
+      "answers": [
+        {
+          "answer": "A decorative box containing minerals created by miners from the Killhope area"
+        },
+        {
+          "answer": "A miner's lunchbox"
+        },
+        {
+          "answer": "A box for miners cigarettes"
+        }
+      ],
+      "hint": "Hint"
+    },
+    {
+      "question": "Is Killhope an active mine?",
+      "correctAnswer": 0,
+      "answers": [
+        {
+          "answer": "No"
+        },
+        {
+          "answer": "It is sometimes used for the extraction of gold"
+        },
+        {
+          "answer": "Yes it is still fully active"
+        }
+      ],
+      "hint": "Hint"
+    },
+    {
+      "question": "Which mineral is used in the production of toothpsate?",
+      "correctAnswer": 2,
+      "answers": [
+        {
+          "answer": "Limonite"
+        },
+        {
+          "answer": "Witherite"
+        },
+        {
+          "answer": "Fluorite"
+        }
+      ],
+      "hint": "Hint"
+    },
+    {
+      "question": "After what mineral is the property fluorescence named?",
+      "correctAnswer": 1,
+      "answers": [
+        {
+          "answer": "Quartz"
+        },
+        {
+          "answer": "Fluorite"
+        },
+        {
+          "answer": "Smithsonite"
+        }
+      ],
+      "hint": "Hint"
+    },
+    {
+      "question": "What's an ore?",
+      "correctAnswer": 1,
+      "answers": [
+        {
+          "answer": "A mineral which is grey in colour"
+        },
+        {
+          "answer": "A naturally occurring solid material which can be extracted profitably"
+        },
+        {
+          "answer": "A small tool used by miners at Killhope"
+        }
+      ],
+      "hint": "Hint"
+    },
+    {
+      "question": "Which mineral at Killhope exhibits the most different colours?",
+      "correctAnswer": 0,
+      "answers": [
+        {
+          "answer": "Fluorite"
+        },
+        {
+          "answer": "Calcite"
+        },
+        {
+          "answer": "Quartz"
+        }
+      ],
+      "hint": "Hint"
+    }
+  ]
+},
+{
+	"name":"Medium Quiz",
+   "ordering":2,
+   "published":true,
+	"questionList":[
+  {
+    "question": "Which mineral has the chemical formula CaCO<sub>3</sub>?",
+    "answers": [
+      {
+        "answer": "Aragonite"
+      },
+      {
+        "answer": "Ankerite"
+      },
+      {
+        "answer": "Barytocalcite"
+      }
+    ],
+    "correctAnswer": 0,
+    "hint": "Hint"
+  },
+  {
+    "question": "Smithsonite is an ore of which metal?",
+    "answers": [
+      {
+        "answer": "Lead"
+      },
+      {
+        "answer": "Iron"
+      },
+      {
+        "answer": "Zinc"
+      }
+    ],
+    "correctAnswer": 2,
+    "hint": "Hint"
+  },
+  {
+    "question": "How long ago did the Whin Sill Intrusion form?",
+    "answers": [
+      {
+        "answer": "200 Million years ago"
+      },
+      {
+        "answer": "300 Million years ago"
+      },
+      {
+        "answer": "400 Million years ago"
+      }
+    ],
+    "correctAnswer": 1,
+    "hint": "Hint"
+  },
+  {
+    "question": "What do cerussite and galena have in common?",
+    "answers": [
+      {
+        "answer": "Both exhibit a range of colours"
+      },
+      {
+        "answer": "Both are ores of lead"
+      },
+      {
+        "answer": "Both have the same hardness"
+      }
+    ],
+    "correctAnswer": 1,
+    "hint": "Hint"
+  },
+  {
+    "question": "How is flourite deposited?",
+    "answers": [
+      {
+        "answer": "In tropical caves"
+      },
+      {
+        "answer": "In hydrothermal veins"
+      },
+      {
+        "answer": "During evaporation processes"
+      }
+    ],
+    "correctAnswer": 1,
+    "hint": "Hint"
+  },
+  {
+    "question": "What is the most common colour of quartz?",
+    "answers": [
+      {
+        "answer": "Purple"
+      },
+      {
+        "answer": "Colourless"
+      },
+      {
+        "answer": "Green"
+      }
+    ],
+    "correctAnswer": 1,
+    "hint": "Hint"
+  },
+  {
+    "question": "What mineral was once used in the production of rat poison?",
+    "answers": [
+      {
+        "answer": "Limonite"
+      },
+      {
+        "answer": "Witherite"
+      },
+      {
+        "answer": "Siderite"
+      }
+    ],
+    "correctAnswer": 1,
+    "hint": "Hint"
+  },
+  {
+    "question": "What is the large igneous body that underlies the North Pennines called?",
+    "answers": [
+      {
+        "answer": "Alston andesite"
+      },
+      {
+        "answer": "Killhope intrusion"
+      },
+      {
+        "answer": "Weardale granite"
+      }
+    ],
+    "correctAnswer": 1,
+    "hint": "Hint"
+  },
+  {
+    "question": "What is cleavage?",
+    "answers": [
+      {
+        "answer": "An iron ore mineral"
+      },
+      {
+        "answer": "A fold in a rock"
+      },
+      {
+        "answer": "The tendency of crystalline materials to split along definite crystallographic structural planes"
+      }
+    ],
+    "correctAnswer": 2,
+    "hint": "Hint"
+  },
+  {
+    "question": "What is streak?",
+    "answers": [
+      {
+        "answer": "Colour of a mineral when scratched on a white porcelain plate"
+      },
+      {
+        "answer": "The colour of a mineral under ultraviolet light"
+      },
+      {
+        "answer": "The tendency for a mineral to be deposited in veins"
+      }
+    ],
+    "correctAnswer": 0,
+    "hint": "Hint"
+  }
+]},
+{
+	"name":"Hard Quiz",
+	"ordering":3,
+   "published":true,
+	"questionList":[
+  {
+    "question": "Which mineral is a pseudomorph (no crystal structure)?",
+    "answers": [
+      {
+        "answer": "Cerussite"
+      },
+      {
+        "answer": "Limonite"
+      },
+      {
+        "answer": "Smithsonite"
+      }
+    ],
+    "correctAnswer": 1,
+    "hint": "Hint"
+  },
+  {
+    "question": "Which mineral was used to fabricate World War II weapon sights?",
+    "answers": [
+      {
+        "answer": "Barytocalcite"
+      },
+      {
+        "answer": "Baryte"
+      },
+      {
+        "answer": "Calcite"
+      }
+    ],
+    "correctAnswer": 2,
+    "hint": "Hint"
+  },
+  {
+    "question": "What lustre does baryte exhibit?",
+    "answers": [
+      {
+        "answer": "Resinous"
+      },
+      {
+        "answer": "Earthy"
+      },
+      {
+        "answer": "Vitreous"
+      }
+    ],
+    "correctAnswer": 2,
+    "hint": "Hint"
+  },
+  {
+    "question": "What is the crystal structure of sphalerite?",
+    "answers": [
+      {
+        "answer": "Orthorhombic"
+      },
+      {
+        "answer": "Cubic"
+      },
+      {
+        "answer": "Hexagonal"
+      }
+    ],
+    "correctAnswer": 1,
+    "hint": "Hint"
+  },
+  {
+    "question": "Twinning refers to what optical property?",
+    "answers": [
+      {
+        "answer": "In tropical cavean intergrowth of two separate crystals"
+      },
+      {
+        "answer": "The point at which a mineral turns black under a microscope"
+      },
+      {
+        "answer": "One crystal exhibiting several colours"
+      }
+    ],
+    "correctAnswer": 0,
+    "hint": "Hint"
+  },
+  {
+    "question": "What is the specific gravity of galena?",
+    "answers": [
+      {
+        "answer": "7.4-7.6"
+      },
+      {
+        "answer": 4.7
+      },
+      {
+        "answer": "2.8-3.0"
+      }
+    ],
+    "correctAnswer": 0,
+    "hint": "Hint"
+  },
+  {
+    "question": "What fruit does a botryoidal crystal structure closely represent?",
+    "answers": [
+      {
+        "answer": "Banana"
+      },
+      {
+        "answer": "Pomegranate"
+      },
+      {
+        "answer": "Grapes"
+      }
+    ],
+    "correctAnswer": 2,
+    "hint": "Hint"
+  },
+  {
+    "question": "What is a gangue mineral?",
+    "answers": [
+      {
+        "answer": "Alston andesiteWorthless material deposited alongside an ore"
+      },
+      {
+        "answer": "Material of high value"
+      },
+      {
+        "answer": "An iron ore"
+      }
+    ],
+    "correctAnswer": 0,
+    "hint": "Hint"
+  },
+  {
+    "question": "Which intrusion shares a source with the North Pennine Ore Field?",
+    "answers": [
+      {
+        "answer": "Weardale Granite"
+      },
+      {
+        "answer": "North Pennine Rhyolite"
+      },
+      {
+        "answer": "Whin Sill Dolerite"
+      }
+    ],
+    "correctAnswer": 2,
+    "hint": "Hint"
+  },
+  {
+    "question": "What is the crystal structure of fluorite?",
+    "answers": [
+      {
+        "answer": "Prismatic"
+      },
+      {
+        "answer": "Cubic"
+      },
+      {
+        "answer": "Octahedral"
+      }
+    ],
+    "correctAnswer": 1,
+    "hint": "Hint"
+  }
+]}
+]
+}

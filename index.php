@@ -1,8 +1,9 @@
 <?php
 
 //Set things up for development/deployment.
-if( file_exists("setup.php")) include 'setup.php';
-
+if( file_exists("setup.php") ){
+  include 'setup.php';
+}
 
 //Check that the CIS user is an allowed user.
 $users = array('gkvc57', 'dcs0www', 'dcs0sad', 'dch1hcg');
@@ -35,6 +36,8 @@ Authentication Error: Your CIS account is not authorised to view this page.
 		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
     <link href="assets/sce/minified/themes/default.min.css" rel="stylesheet">
 		<link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/featherlight.min.css" rel="stylesheet">
+
 		<!--[if lt IE 9]>
 			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
@@ -64,7 +67,6 @@ Authentication Error: Your CIS account is not authorised to view this page.
 <!-- Wrap all page content here -->
 <div id="wrap">
 <div class="container" id="change-type"> 
-<?php phpinfo(); ?>
 	You are: <?php echo $_SERVER['REMOTE_USER'] ?> 
   <div class="text-center">
     <h1>What do you want to change?</h1>
@@ -88,9 +90,8 @@ Authentication Error: Your CIS account is not authorised to view this page.
 		<a id="save-changes" class="btn btn-lg btn-success"> <span id="floppy-icon" class="glyphicon glyphicon-floppy-disk"></span> Save Changes </a>
 	</div>
 </div>
-<div id="form">
+<form id="form"> </form>
 
-</div>
 
 </div><!-- /.container -->
 </div><!-- /.wrap -->
@@ -104,15 +105,19 @@ Authentication Error: Your CIS account is not authorised to view this page.
   </div>
 </footer>
 </body>
+<div id="imageHtml" style='display:none'></div>
 </html>
 
 
-	<!-- script references -->
+	  <!-- script references -->
     <script src="assets/js/jquery.js" type="text/javascript"></script>
 		<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
-    <script src="assets/sce/minified/jquery.sceditor.min.js" type="text/javascript"></script>
+    <script src="assets/sce/development/jquery.sceditor.js" type="text/javascript"></script>
     <script src="assets/js/jsoneditor.js" type="text/javascript"></script>
-		<script src="assets/js/schema.js" type="text/javascript"></script>  <!-- Stores the schema for each type of data -->
+    <!-- Stores the schema for each type of data -->    
+		<script src="assets/js/schema.js" type="text/javascript"></script>  
+    <script src="assets/js/featherlight.min.js" type="text/javascript"></script>
+
 		<script type="text/javascript">
 
 //------------------------------------------------------------------------------
@@ -120,6 +125,13 @@ Authentication Error: Your CIS account is not authorised to view this page.
 //------------------------------------------------------------------------------
 
 $( document ).ready( function(){
+
+//All our AJAX calls are for json files. 
+$.ajaxSetup({beforeSend: function(xhr){
+  if (xhr.overrideMimeType){
+    xhr.overrideMimeType("application/json");
+  }
+}});
 
 JSONEditor.defaults.theme = 'bootstrap3';
 JSONEditor.defaults.iconlib = 'bootstrap3';
@@ -139,19 +151,42 @@ JSONEditor.plugins.sceditor.resizeMaxHeight = -1;
 
 var element = document.getElementById('form');
 
+$.sceditor.command.set( "image", {
+  exec: function(a) {
+      var editor = this;
+      var content = "<iframe style='height:80vh; width:80vw;' src='fileBrowser.html'></iframe>";
+      $.featherlight(content, {closeOnClick:false});
+      $('#imageHtml').bind('DOMSubtreeModified', function(e) {
+        if (e.target.innerHTML.length > 0) {
+          editor.insert( $('#imageHtml').text() );
+          $.featherlight.current().close();
+          $('#imageHtml').remove();
+          $('body').append('<div id="imageHtml"></div>');
+        }
+      });
+  },
+  tooltip: "Insert an image"
+});
+
+function setJsonValue(schema, value, editor){
+  if( editor.destroy ) editor.destroy();
+  editor = new JSONEditor(element, {no_additional_properties:true, schema:schema})
+	editor.setValue(value);
+}
+
 function openNormalPage( formSchema, file ){
 	
 	var filePath = "../../data/"+file;
 	$('#change-type').hide();
-   $('.above-form ').show();
+  $('.above-form ').show();
 
-	// Initialize the editor
-	var editor = new JSONEditor(element, {no_additional_properties:true, schema:formSchema});
+	var editor = {};
 
 	// Get the saved JSON data and set the editor to equal it.
-   $.ajaxSetup({ cache: false });
+  $.ajaxSetup({ cache: false });
 	$.getJSON( filePath, function(json) {
-		editor.setValue(json)		
+    editor = new JSONEditor(element, {no_additional_properties:true, schema:formSchema});
+		editor.setValue(json);		
 	});
 	
 	//Show the buttons.
@@ -169,7 +204,7 @@ function openNormalPage( formSchema, file ){
 	$('#revert-last-save').click( function(){
 		if( confirm("Are you sure?\nYou will lose changes made since the last save.") ){
 			$.getJSON(filePath, function(json) {
-				editor.setValue(json);
+				setJsonValue( formSchema, json, editor );
 			});
 		}
 	});
@@ -178,7 +213,7 @@ function openNormalPage( formSchema, file ){
 	$('#revert-original').click( function(){
 		if( confirm("Are you sure?\nThis will set the form's data back to factory settings.\nIF YOU THEN CLICK \"SAVE\", ALL PREVIOUSLY SAVED DATA CHANGES WILL BE LOST.") ){
 			$.getJSON("data/original/"+file, function(json) {
-				editor.setValue(json);
+				setJsonValue( formSchema, json, editor );
 			});
 		}
 	});
@@ -216,11 +251,11 @@ function openMineralPage(){
 		//Listen to the mineral selector.
 		$( '.minSelect' ).on( 'click', function(){
 			mineralID = $(this).attr('minID');
-			editor.setValue(completeData[mineralID]);
+			setJsonValue( mineral_schema, completeData[mineralID], editor );
 		}); 
 
 		completeData = json;
-		editor.setValue(json[mineralID]);
+		setJsonValue( mineral_schema, json[mineralID], editor );
 	});
 	
 
@@ -240,7 +275,7 @@ function openMineralPage(){
 	$('#revert-last-save').click( function(){
 		if( confirm("Are you sure?\nYou will lose changes made since the last save.") ){
 			$.getJSON(filePath, function(json) {
-				editor.setValue(json[mineralID]);
+				setJsonValue( mineral_schema, json[mineralID], editor );
 			});
 		}
 	});
@@ -249,7 +284,7 @@ function openMineralPage(){
 	$('#revert-original').click( function(){
 		if( confirm("Are you sure?\nThis will set the form's data back to factory settings.\nIF YOU THEN CLICK \"SAVE\", ALL PREVIOUSLY SAVED DATA CHANGES WILL BE LOST.") ){
 			$.getJSON("data/original/MineralData.json", function(json) {
-				editor.setValue(json[mineralID]);
+				setJsonValue( mineral_schema, json[mineralID], editor );
 			});
 		}
 	});
@@ -301,7 +336,7 @@ function openQuizPage(){
 				editor.destroy();
 				editor = new JSONEditor(element, {no_additional_properties:true, schema:quiz_schema});
 			}else{
-				editor.setValue(completeData.quizzes[qID]);
+				setJsonValue(quiz_schema, completeData.quizzes[qID], editor);
 			}
 		}); 
 
@@ -322,12 +357,12 @@ function openQuizPage(){
 	}
 	
 	// Get the saved JSON data and set the editor to equal it.
-   $.ajaxSetup({ cache: false });
+  $.ajaxSetup({ cache: false });
 	$.getJSON( filePath, function(json) {
 
 		//Save the complete data and set the form values to the initial quiz.
 		completeData = json;
-		editor.setValue(completeData.quizzes[quizID]);
+		setJsonValue(quiz_schema, completeData.quizzes[quizID], editor);
 		createDropdown();
 
 	});
@@ -362,7 +397,7 @@ function openQuizPage(){
 				//If trying to revert to last save of a new quiz, just empty the form.
 				$.getJSON(filePath, function(json) {
 						completeData = json;
-						editor.setValue(completeData.quizzes[quizID]);
+						setJsonValue(quiz_schema, completeData.quizzes[quizID], editor);
 						createDropdown();	
 				});
 			}
@@ -376,7 +411,7 @@ function openQuizPage(){
 			$.getJSON("data/original/QuizData.json", function(json) {
 				completeData = json;
 				quizID = 0;
-				editor.setValue(completeData.quizzes[quizID]);
+				setJsonValue(quiz_schema, completeData.quizzes[quizID], editor);
 				createDropdown();	
 			});
 		}
@@ -398,10 +433,28 @@ function openTrailPage(){
 	$('#change-type').hide();
     $('.above-form ').show();
 
-	// Initialize the editor
-	var editor = new JSONEditor(element, {no_additional_properties:true, schema:trail_schema});
+	// Declare page-wide variables.
+  //Only actually initialise the editor once json has been fetched - SCEditor throws a horrible bug.
+	var editor = {};  
 	var completeData = {};
 	var trailID = 0;
+
+
+
+  // Get the saved JSON data and set the editor to equal it.
+  $.ajaxSetup({ cache: false });
+	$.getJSON( filePath, function(json) {
+
+		//Save the complete data and set the form values to the initial quiz.
+		completeData = json;
+    editor = new JSONEditor(element, {no_additional_properties:true, schema:trail_schema});
+	  editor.setValue(completeData.trails[trailID]);
+	  createDropdown();
+
+    //Hacky hack hack to get the SCEditors created in a hidden DOM element to have the correct size.
+    //There is a bug in SCEditor width calculations for editors nested inside a hidden DOM element.
+    $('.list-group-item').click( function() { $(window).resize(); });
+	});
 
 	function createDropdown(){
 		$('#itemSelector').remove();
@@ -426,7 +479,7 @@ function openTrailPage(){
 				editor.destroy();
 				editor = new JSONEditor(element, {no_additional_properties:true, schema:trail_schema});
 			}else{
-				editor.setValue(completeData.trails[tID]);
+        setJsonValue( trail_schema, completeData.trails[tID], editor )
 			}
 		}); 
 
@@ -446,20 +499,6 @@ function openTrailPage(){
 		});
 	}
 	
-	// Get the saved JSON data and set the editor to equal it.
-    $.ajaxSetup({ cache: false });
-	$.getJSON( filePath, function(json) {
-
-		//Save the complete data and set the form values to the initial quiz.
-		completeData = json;
-		editor.setValue(completeData.trails[trailID]);
-		createDropdown();
-
-    //Hacky hack hack to get the SCEditors created in a hidden DOM element to have the correct size.
-    //There is a bug in SCEditor width calculations for editors nested inside a hidden DOM element.
-    $('.list-group-item').click( function() { $(window).resize(); });
-	});
-	
 	//Show the buttons.
  	$('.above-form ').show();
 
@@ -473,6 +512,7 @@ function openTrailPage(){
 		}else{
 			completeData.trails[trailID] = editor.getValue();
 		}
+    console.log( completeData );
 		saveObject( filePath, completeData );
 		
 	});
@@ -480,17 +520,17 @@ function openTrailPage(){
 	//Enable the download JSON button. 
 	$('#download-json').attr('href',filePath);
 
-	//Enable the revert to original button.
+	//Enable the revert to last save button.
 	$('#revert-last-save').click( function(){
 		if( confirm("Are you sure?\nYou will lose changes made since the last save.") ){
 			if( trailID==-1 ){
+        //If trying to revert to last save of a new trail, just empty the form.
 				editor.destroy();
 				editor = new JSONEditor(element, {no_additional_properties:true, schema:trail_schema})
 			}else{
-				//If trying to revert to last save of a new trail, just empty the form.
 				$.getJSON(filePath, function(json) {
 						completeData = json;
-						editor.setValue(completeData.trails[trailID]);
+            setJsonValue( trail_schema, completeData.trails[trailID], editor )
 						createDropdown();	
 				});
 			}
@@ -501,10 +541,10 @@ function openTrailPage(){
 	$('#revert-original').click( function(){
 		if( confirm("Are you sure?\nThis will set the form's data back to factory settings.\nIF YOU THEN CLICK \"SAVE\", ALL PREVIOUSLY SAVED DATA CHANGES WILL BE LOST.") ){
 			//If the quiz is a new quiz, change the revert to orginal button to a "delete new quiz" button
-			$.getJSON("data/original/TrailData.json", function(json) {
+			$.getJSON("assets/data/original/TrailData.json", function(json) {
 				completeData = json;
 				trailID = 0;
-				editor.setValue(completeData.trails[trailID]);
+        setJsonValue( trail_schema, completeData.trails[trailID], editor )
 				createDropdown();	
 			});
 		}
@@ -523,6 +563,7 @@ function openTrailPage(){
 //-----FUNCTION----
 function saveObject(filePath, jsonObject){
 	var json = JSON.stringify(jsonObject);
+  console.log( json)
 	var xhr = new XMLHttpRequest();
 	xhr.open('POST','writeJSON.php',true);
 	xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
@@ -553,7 +594,6 @@ $('#trailsDat').click( function() {
 });
 
 }); //End document.ready
-
 
 
 		</script>

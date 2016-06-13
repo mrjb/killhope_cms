@@ -55,7 +55,7 @@ var quiz_schema = {
 
 
   "properties":{
-	 "name":{"type":"string", "title":"Quiz Name"},
+	 "name":{"type":"string", "title":"Quiz Name", "format":"html", "options": { "wysiwyg": true } },
     "ordering":{"type":"number", "title":"Ordering (quizzes with a smaller number are listed before quizzes with a higher number)"},
     "published":{"type":"boolean", "format":"checkbox", "title":"Published (un-publish, instead of delete, when you wish to remove a quiz from the app that you might need again in the future).", "default":true},
     "questionList":{
@@ -151,8 +151,8 @@ var trail_schema = {
       "default":true
     },
     "overview":{
-      "type":"string", 
       "title":"Trail Overview", 
+      "type":"string",  
       "format": "html",
       "options": { "wysiwyg": true }
     },

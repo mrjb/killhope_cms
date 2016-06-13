@@ -18,6 +18,8 @@
     "jquery": "~2.2.4",
     "bootstrap-css": "~3.3.6",
     "json-editor": "~0.7.25",
-    "SCEditor": "~1.4.7"
+    "SCEditor": "~1.4.7",
+    "dropzone": "~4.3.0",
+    "featherlight": "~1.4.1"
   }
 }

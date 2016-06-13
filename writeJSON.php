@@ -2,7 +2,7 @@
 
 $fileContents = json_encode($_POST['json'], JSON_PRETTY_PRINT);
 $filePath = $_POST['file'];
-file_put_contents($filePath,json_format(stripslashes($_POST['json'])));
+file_put_contents($filePath,json_format($_POST['json']));
 
 function json_format($json)
 {

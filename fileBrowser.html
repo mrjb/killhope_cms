@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<title>Cute file browser</title>
+
+
+	<!-- Include our stylesheet -->
+	<link href="assets/css/bootstrap.min.css" rel="stylesheet">
+	<link href="assets/css/styles.css" rel="stylesheet"/>
+  <link href="assets/css/dropzone.min.css" rel="stylesheet">
+  <link href="assets/css/custom.css" rel="stylesheet">
+
+</head>
+<body>
+  
+
+  <div class="row form-header">
+    <div class="col-xs-12 col-md-5">
+      <form action="imageHandler.php"
+          method="POST"
+          class="dropzone"
+          id="imageUploader"></form>
+    </div>
+    <div class="col-xs-12 col-md-5">
+      <div class="">
+        <form id="imageSelector">
+          <div class="image row">
+            <label class="col-xs-12 col-md-4">Selected image:</label>
+            <div class="input col-xs-12 col-md-8 selected">Nothing Selected</div>
+          </div>
+          <div class="row">
+            <div class="dimensions width col-xs-6">
+              <label >Width (%)</label>
+              <input type="number" class="input" min="1" max="100"> </input>
+            </div>
+            <div class="dimensions height col-xs-6" >
+              <label >Height (%)</label>
+              <input type="number" class="input" min="1" max="100"> </input>
+            </div>
+          </div>
+          <div class="row">
+            <div class="float-left float col-xs-12 col-sm-4">
+              <label>Float left</label>
+              <input type="radio" class="input" name="float" value="left" > </input>
+            </div>
+            <div class="float-right float col-xs-12 col-sm-4">
+              <label>Float right</label>
+              <input type="radio" class="input" name="float" value="right" > </input>
+            </div>
+            <div class="float-none float col-xs-12 col-sm-4">
+              <label>No float</label>
+              <input type="radio" class="input" name="float" value="none" checked="checked" > </input>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="col-xs-12 col-md-2">
+      <div class="choose" onclick="choose(); return false;">
+        <span>Insert<br/> Image</span>
+      </div>
+    </div>
+  
+  </div>
+
+	<div class="filemanager">
+
+		<div class="search">
+			<input type="search" placeholder="Find a file.." />
+		</div>
+
+		<ul class="data"></ul>
+
+		<div class="nothingfound">
+			<div class="nofiles"></div>
+			<span>No files here.</span>
+		</div>
+
+	</div>
+
+	<!-- Include our script files -->
+	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script src="assets/js/dropzone.min.js" type="text/javascript"></script>
+	<script src="assets/js/imageManager.js"></script>
+  <script type="text/javascript">
+        Dropzone.options.imageUploader = {
+            success: function(file, response){
+                if( $.trim(response) != "success" ) alert(response);
+                location.reload();
+            }
+        };
+        $("input:radio[name=float]").click(function() {
+           var value = $(this).val();
+        });
+        function selectImage(path){
+            $('#imageSelector .selected').text( path );
+        }
+
+        function choose(){
+            
+            var path = $('#imageSelector .selected').text();
+            var width = $('#imageSelector .width .input').val();
+            var height = $('#imageSelector .height .input').val();
+            var float = $('#imageSelector .float .input:checked').val();
+            
+            var string = "<img src='" + path + "' style='";
+            if( width ) string += "width: " + width + "%;";
+            if( height ) string += "height: "+ height + "%;";
+            string += "float: " + float + "; margin: 10px;'></img>";
+
+            $("#imageHtml", top.document).text( string );
+
+        }
+  </script>
+</body>
+</html>

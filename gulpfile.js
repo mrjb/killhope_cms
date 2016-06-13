@@ -41,7 +41,7 @@ gulp.task('jshint', function() {
 gulp.task('js', ['jshint'], function() {
 	return gulp.src( mainBowerFiles().concat(['custom_src/*.js']) )
 		.pipe(filter('*.js'))
-    .pipe(uglify())
+//    .pipe(uglify())
     .pipe(gulp.dest('assets/js/'));
 });
 
@@ -83,7 +83,7 @@ gulp.task('img', function(){
 
 //TASK: Data
 gulp.task( 'data', function(){
-  return gulp.src(['custom_src/data/*'])
+  return gulp.src(['custom_src/data/**/*'])
     .pipe(gulp.dest('assets/data'));
 });
 
