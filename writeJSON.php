@@ -1,18 +1,11 @@
 <?php
 
-foreach (getallheaders() as $name => $value) {
-    error_log("$name: $value\n");
-}
-
-
 if( file_put_contents($_POST['file'], json_format($_POST['json'])) ){
   echo "Success";
 }else{
   echo "There was an error saving data, if the error persists please contact the developer.\n";
   echo json_format($_POST['json']);
 }
-
-error_log(json_format($_POST['json']) );
 
 function json_format($json)
 {
