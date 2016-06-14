@@ -1,12 +1,22 @@
 <?php
 
-if( file_put_contents($_POST['file'], json_format($_POST['json'])) ){
-  echo "Success";
-}else{
-  echo "There was an error saving data, if the error persists please contact the developer.\n";
-  echo json_format($_POST['json']);
+//The linux server can have asetting enabled that adds slashes into POST variables.
+//This is remove din later PHP versions.  Get around it here...
+$json_string = $_POST['json'];
+if (get_magic_quotes_gpc())  {
+  $json_string = stripslashes($json_string);
 }
 
+//Perform the file writing and return details to the caller.
+if( file_put_contents($_POST['file'], json_format($json_string)) ){
+  echo "Success";
+  echo $json_string;
+}else{
+  echo "There was an error saving data, if the error persists please contact the developer.\n";
+  echo "String to be written: " . $_POST['json'];
+}
+
+//Reformat a json string with the correct whitespace so it is easily readblae.
 function json_format($json)
 {
     $tab = "  ";
