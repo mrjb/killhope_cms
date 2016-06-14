@@ -6,7 +6,7 @@ $(function(){
 
 	// Start by fetching the file data from scan.php with an AJAX request
 
-	$.get('imageHandler.php', function(data) {
+	$.getJSON('imageHandler.php', function(data) {
 
 		var response = [data],
 			currentPath = '',
@@ -107,7 +107,7 @@ $(function(){
 
 				// Building the breadcrumbs
 
-				breadcrumbsUrls = generateBreadcrumbs(nextDir);
+				breadcrumbsUrls = generateBreadcrumbs(nextDir);if( $.trim(response) != "success" ) alert(response);
 
 				filemanager.removeClass('searching');
 				filemanager.find('input[type=search]').val('').hide();

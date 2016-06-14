@@ -126,13 +126,6 @@ Authentication Error: Your CIS account is not authorised to view this page.
 
 $( document ).ready( function(){
 
-//All our AJAX calls are for json files. 
-$.ajaxSetup({beforeSend: function(xhr){
-  if (xhr.overrideMimeType){
-    xhr.overrideMimeType("application/json");
-  }
-}});
-
 JSONEditor.defaults.theme = 'bootstrap3';
 JSONEditor.defaults.iconlib = 'bootstrap3';
 
@@ -563,17 +556,22 @@ function openTrailPage(){
 //-----FUNCTION----
 function saveObject(filePath, jsonObject){
 	var json = JSON.stringify(jsonObject);
-  console.log( json)
-	var xhr = new XMLHttpRequest();
-	xhr.open('POST','writeJSON.php',true);
-	xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
-	xhr.send('json=' + json + '&file='+filePath);
-    xhr.onreadystatechange=function(){
-		if (xhr.readyState==4 && xhr.status==200){
-			alert("Object Saved");			
-		}
-	}
-
+  console.log('json=' + json + '&file='+filePath)
+  console.log(typeof(json))
+  $.ajax({
+    type: 'POST',
+    url: 'writeJSON.php',
+    data: 'json=' + json + '&file='+filePath,
+    headers: {'Content-type':'application/x-www-form-urlencoded'},
+    success: function(msg){
+      alert(msg);
+      if( $.trim(msg) != "success" ) alert(msg);
+      else alert("Object Saved");
+    },
+    error: function(x, status, error){
+      alert("An error occurred: " + status + "\nnError: " + error);
+    }
+  });
 }
 
 $('#minDat').click( function() {

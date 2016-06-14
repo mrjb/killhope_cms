@@ -1,8 +1,18 @@
 <?php
 
-$fileContents = json_encode($_POST['json'], JSON_PRETTY_PRINT);
-$filePath = $_POST['file'];
-file_put_contents($filePath,json_format($_POST['json']));
+foreach (getallheaders() as $name => $value) {
+    error_log("$name: $value\n");
+}
+
+
+if( file_put_contents($_POST['file'], json_format($_POST['json'])) ){
+  echo "Success";
+}else{
+  echo "There was an error saving data, if the error persists please contact the developer.\n";
+  echo json_format($_POST['json']);
+}
+
+error_log(json_format($_POST['json']) );
 
 function json_format($json)
 {
@@ -13,8 +23,8 @@ function json_format($json)
 
     //$json_obj = json_decode($json);
 
-    if($json_obj === false)
-        return false;
+    //if($json_obj === false)
+    //    return false;
 
     //$json = json_encode($json_obj);
     $len = strlen($json);
