@@ -1,16 +1,15 @@
 <?php
 
-//The linux server can have asetting enabled that adds slashes into POST variables.
-//This is remove din later PHP versions.  Get around it here...
+//The linux server can have a setting enabled that adds slashes into POST variables.
+//Get around it here...
 $json_string = $_POST['json'];
 if (get_magic_quotes_gpc())  {
   $json_string = stripslashes($json_string);
 }
 
 //Perform the file writing and return details to the caller.
-if( file_put_contents($_POST['file'], json_format($json_string)) ){
-  echo "Success";
-  echo $json_string;
+if( file_put_contents( $_POST['file'], json_format($json_string) ) ){
+  echo "success";
 }else{
   echo "There was an error saving data, if the error persists please contact the developer.\n";
   echo "String to be written: " . $_POST['json'];

@@ -564,7 +564,6 @@ function saveObject(filePath, jsonObject){
     data: 'json=' + json + '&file='+filePath,
     headers: {'Content-type':'application/x-www-form-urlencoded'},
     success: function(msg){
-      alert(msg);
       if( $.trim(msg) != "success" ) alert(msg);
       else alert("Object Saved");
     },
