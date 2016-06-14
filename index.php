@@ -128,6 +128,7 @@ $( document ).ready( function(){
 
 JSONEditor.defaults.theme = 'bootstrap3';
 JSONEditor.defaults.iconlib = 'bootstrap3';
+JSONEditor.defaults.options.ajax = false;
 
 JSONEditor.plugins.sceditor.toolbar = 
       'bold,italic,underline,strike,subscript,superscript|' +
@@ -161,10 +162,13 @@ $.sceditor.command.set( "image", {
   tooltip: "Insert an image"
 });
 
-function setJsonValue(schema, value, editor){
+function killEditor( editor ){
   if( editor.destroy ) editor.destroy();
-  editor = new JSONEditor(element, {no_additional_properties:true, schema:schema})
-	editor.setValue(value);
+  $('#revert-original').unbind('click');
+  $('#revert-last-save').unbind('click');
+  $('#download-json').unbind('click');
+  $('#back-to-home').unbind('click');
+  $('#save-changes').unbind('click');
 }
 
 function openNormalPage( formSchema, file ){
@@ -220,37 +224,65 @@ function openNormalPage( formSchema, file ){
 	
 }
 
-function openMineralPage(){
-	var filePath = "../data/MineralData.json";
+function openMineralPage(data, id){
+
+	var filePath = "../../data/MineralData.json";
 
 	$('#change-type').hide();
-   $('.above-form ').show();
+  $('.above-form ').show();
 
 	// Initialize the editor
-	var editor = new JSONEditor(element, {no_additional_properties:true, schema:mineral_schema});
-	var completeData = {}
-	var mineralID = "0";
-	// Get the saved JSON data and set the editor to equal it.
-   $.ajaxSetup({ cache: false });
+	var editor = {};
+	var completeData = data ? data : {};
+	var mineralID = id ? id : "0";
 
-	$.getJSON( filePath, function(json) {
+  //If we've been given data, we don't need to fetch it with ajax.
+  if( data ) initialiseEditor();
+  else{
+    // Get the saved JSON data and set the editor to equal it.
+    $.ajaxSetup({ cache: false });
+    $.getJSON( filePath, function(json) {
+	    completeData = json;
+      initialiseEditor();
+    });
+  }
 
-		var dropDown = "<div class='dropdown' id='minSelector'><button class='btn btn-default btn-lg dropdown-toggle' type='button' data-toggle='dropdown' class='minSelect'> Mineral <span class='caret'></span></button><ul class='dropdown-menu'>";
-		for( var key in json ){
-			dropDown = dropDown + "<li><a href='#' class='minSelect'  minID='"+key+"'>"+json[key].name+"</a></li>";
+  function initialiseEditor(){
+    editor = new JSONEditor(element, {no_additional_properties:true, schema:mineral_schema});
+    console.log( completeData[mineralID]);
+    editor.setValue(completeData[mineralID]);
+	  createDropdown();
+
+    //Hacky hack hack to get the SCEditors created in a hidden DOM element to have the correct size.
+    //There is a bug in SCEditor width calculations for editors nested inside a hidden DOM element.
+    $('.list-group-item').click( function() { $(window).resize(); });
+  }
+
+  function setJsonValue( completeData, minID ){
+    killEditor( editor );
+    openMineralPage( completeData, minID );
+  }
+	
+  function createDropdown(){
+		$('#minSelector').remove();
+    //Draw dropdown
+		var dropDown = "<div class='dropdown' id='minSelector'>" +
+                   "<button class='btn btn-default btn-lg dropdown-toggle' type='button' " +
+                   "data-toggle='dropdown' class='minSelect'> Mineral <span class='caret'>" +
+                   "</span></button><ul class='dropdown-menu'>";
+		for( var key in completeData ){
+			dropDown = dropDown + "<li><a href='#' class='minSelect'  minID='"+key+"'>"+completeData[key].name+"</a></li>";
 		}
 		dropDown = dropDown +"</ul></div>";
-		$('#lhs-btns').append(dropDown);		
+    console.log( dropDown );
+		$('#lhs-btns').append(dropDown);	
+	
 		//Listen to the mineral selector.
 		$( '.minSelect' ).on( 'click', function(){
 			mineralID = $(this).attr('minID');
-			setJsonValue( mineral_schema, completeData[mineralID], editor );
+			setJsonValue( completeData, mineralID );
 		}); 
-
-		completeData = json;
-		setJsonValue( mineral_schema, json[mineralID], editor );
-	});
-	
+  }
 
 	//Show the buttons.
  	$('.above-form ').show();
@@ -268,7 +300,7 @@ function openMineralPage(){
 	$('#revert-last-save').click( function(){
 		if( confirm("Are you sure?\nYou will lose changes made since the last save.") ){
 			$.getJSON(filePath, function(json) {
-				setJsonValue( mineral_schema, json[mineralID], editor );
+				setJsonValue( json, mineralID);
 			});
 		}
 	});
@@ -276,8 +308,8 @@ function openMineralPage(){
 	//Enable the revert to original button.
 	$('#revert-original').click( function(){
 		if( confirm("Are you sure?\nThis will set the form's data back to factory settings.\nIF YOU THEN CLICK \"SAVE\", ALL PREVIOUSLY SAVED DATA CHANGES WILL BE LOST.") ){
-			$.getJSON("data/original/MineralData.json", function(json) {
-				setJsonValue( mineral_schema, json[mineralID], editor );
+			$.getJSON("assets/data/original/MineralData.json", function(json) {
+				setJsonValue( json, mineralID );
 			});
 		}
 	});
@@ -294,27 +326,57 @@ function openMineralPage(){
  
 
 
-function openQuizPage(){
+function openQuizPage(data, id){
 
 	var filePath = "../../data/QuizData.json";
 
 	$('#change-type').hide();
-   $('.above-form ').show();
+  $('.above-form ').show();
 
 	// Initialize the editor
-	var editor = new JSONEditor(element, {no_additional_properties:true, schema:quiz_schema});
-	var completeData = {};
-	var quizID = 0;
+	var editor = {};
+	var completeData = data ? data : {};
+	var quizID = id ? id : 0;
+
+  //If we've been given data, we don't need to fetch it with ajax.
+  if( data ) initialiseEditor();
+  else{
+    // Get the saved JSON data and set the editor to equal it.
+    $.ajaxSetup({ cache: false });
+    $.getJSON( filePath, function(json) {
+
+	    //Save the complete data and set the form values to the initial quiz.
+	    completeData = json;
+      initialiseEditor();
+
+    });
+  }
+
+  function initialiseEditor(){
+    editor = new JSONEditor(element, {no_additional_properties:true, schema:quiz_schema});
+    if( quizID >-1 ) editor.setValue(completeData.quizzes[quizID]);
+	  createDropdown();
+
+    //Hacky hack hack to get the SCEditors created in a hidden DOM element to have the correct size.
+    //There is a bug in SCEditor width calculations for editors nested inside a hidden DOM element.
+    $('.list-group-item').click( function() { $(window).resize(); });
+  }
+
+  function setJsonValue( completeData, trailID ){
+    killEditor( editor );
+    console.log(completeData );
+    openQuizPage( completeData, trailID );
+  }
 
 	function createDropdown(){
-		$('#itemSelector').remove();
-//Create the quiz selector
-		var dropDown = "<div class='dropdown' id='itemSelector'><button class='btn btn-default btn-lg dropdown-toggle' type='button' data-toggle='dropdown' class='itemSelect'> Quiz <span class='caret'></span></button><ul class='dropdown-menu'>";
 
+		$('#itemSelector').remove();
+
+    //Create the quiz selector
+		var dropDown = "<div class='dropdown' id='itemSelector'><button class='btn btn-default btn-lg dropdown-toggle' type='button' data-toggle='dropdown' class='itemSelect'> Quiz <span class='caret'></span></button><ul class='dropdown-menu'>";
 		for( var i = 0; i< completeData.quizzes.length; i++ ){
 			dropDown = dropDown + "<li><a href='#' class='itemSelect'  quizid='"+i+"'>"+completeData.quizzes[i].name+"</a><a href='#' data-toggle='tooltip' title='Delete this quiz' class='itemDelete' quizid='"+i+"'><span class='glyphicon glyphicon-remove'></span> </a></li>";
 		}
-
 		dropDown = dropDown + "<li class='divider'></li>";
 		dropDown = dropDown + "<li><a href='#' class='newItem itemSelect'  quizid='-1'>New Quiz</a> </li>";
 		dropDown = dropDown +"</ul></div>";
@@ -322,15 +384,8 @@ function openQuizPage(){
 
 		//Listen to the quiz selector.
 		$( '.itemSelect' ).on( 'click', function(){
-			qID = $(this).attr('quizid');
-			quizID = qID
-			if( qID == -1 ){
-				console.log("hit");
-				editor.destroy();
-				editor = new JSONEditor(element, {no_additional_properties:true, schema:quiz_schema});
-			}else{
-				setJsonValue(quiz_schema, completeData.quizzes[qID], editor);
-			}
+			quizID = $(this).attr('quizid');
+		  setJsonValue(completeData, quizID);
 		}); 
 
 		//Listen to the quiz selector.
@@ -341,24 +396,17 @@ function openQuizPage(){
 			}else{
 				qID = $(this).attr('quizid');
 				if( confirm( "Are you sure? The quiz will be lost forever.\nConsider setting the quiz property 'hidden' to true if you may wish to use the quiz again.\nIf you click 'yes', the quiz '" + completeData.quizzes[qID].name + "' will be deleted and you will be directed back to the home page."  )){
-					qID = $(this).attr('quizid');
-					completeData.quizzes.splice(qID,1);
-					createDropdown();
+
+          completeData.quizzes.splice(qID,1);
+          saveObject( filePath, completeData );
+          if( quizID == qID ) setJsonValue(completeData, 0); 
+					else createDropdown();
+
 				}
 			}
 		});
 	}
 	
-	// Get the saved JSON data and set the editor to equal it.
-  $.ajaxSetup({ cache: false });
-	$.getJSON( filePath, function(json) {
-
-		//Save the complete data and set the form values to the initial quiz.
-		completeData = json;
-		setJsonValue(quiz_schema, completeData.quizzes[quizID], editor);
-		createDropdown();
-
-	});
 	
 	//Show the buttons.
  	$('.above-form ').show();
@@ -366,6 +414,7 @@ function openQuizPage(){
 	//On the quiz page we have to first insert the form's details into the complete data set.
 	//If the quiz is a new quiz, we have to add the quiz to the data set.
 	$('#save-changes').click( function(){
+    console.log( completeData );
 		if( quizID == -1 ){
 			quizID = completeData.quizzes.length;
 			completeData.quizzes[quizID] = editor.getValue();
@@ -373,6 +422,7 @@ function openQuizPage(){
 		}else{
 			completeData.quizzes[quizID] = editor.getValue();
 		}
+    console.log( completeData );
 		saveObject( filePath, completeData );
 		
 	});
@@ -384,14 +434,12 @@ function openQuizPage(){
 	$('#revert-last-save').click( function(){
 		if( confirm("Are you sure?\nYou will lose changes made since the last save.") ){
 			if( quizID==-1 ){
-				editor.destroy();
-				editor = new JSONEditor(element, {no_additional_properties:true, schema:quiz_schema})
+				setJsonValue( completeData, quizID);
 			}else{
 				//If trying to revert to last save of a new quiz, just empty the form.
 				$.getJSON(filePath, function(json) {
 						completeData = json;
-						setJsonValue(quiz_schema, completeData.quizzes[quizID], editor);
-						createDropdown();	
+						setJsonValue( completeData, quizID );
 				});
 			}
 		}
@@ -401,11 +449,8 @@ function openQuizPage(){
 	$('#revert-original').click( function(){
 		if( confirm("Are you sure?\nThis will set the form's data back to factory settings.\nIF YOU THEN CLICK \"SAVE\", ALL PREVIOUSLY SAVED DATA CHANGES WILL BE LOST.") ){
 			//If the quiz is a new quiz, change the revert to orginal button to a "delete new quiz" button
-			$.getJSON("data/original/QuizData.json", function(json) {
-				completeData = json;
-				quizID = 0;
-				setJsonValue(quiz_schema, completeData.quizzes[quizID], editor);
-				createDropdown();	
+			$.getJSON("assets/data/original/QuizData.json", function(json) {
+				setJsonValue( json, 0 );
 			});
 		}
 	});
@@ -419,41 +464,56 @@ function openQuizPage(){
 	
 }
 
-function openTrailPage(){
+function openTrailPage( data, id ){
 
 	var filePath = "../../data/TrailData.json";
 
 	$('#change-type').hide();
-    $('.above-form ').show();
+  $('.above-form ').show();
 
 	// Declare page-wide variables.
   //Only actually initialise the editor once json has been fetched - SCEditor throws a horrible bug.
-	var editor = {};  
-	var completeData = {};
-	var trailID = 0;
+	var editor = {}; 
+	var completeData = data ? data : {};
+	var trailID = id ? id : 0;
 
+  //If we've been given data, we don't need to fetch it with ajax.
+  if( data ) initialiseEditor();
+  else{
+    // Get the saved JSON data and set the editor to equal it.
+    $.ajaxSetup({ cache: false });
+    $.getJSON( filePath, function(json) {
 
+	    //Save the complete data and set the form values to the initial quiz.
+	    completeData = json;
+      initialiseEditor();
 
-  // Get the saved JSON data and set the editor to equal it.
-  $.ajaxSetup({ cache: false });
-	$.getJSON( filePath, function(json) {
+    });
+  }
 
-		//Save the complete data and set the form values to the initial quiz.
-		completeData = json;
+  function initialiseEditor(){
     editor = new JSONEditor(element, {no_additional_properties:true, schema:trail_schema});
-	  editor.setValue(completeData.trails[trailID]);
+    if( trailID >-1 ) editor.setValue(completeData.trails[trailID]);
 	  createDropdown();
 
     //Hacky hack hack to get the SCEditors created in a hidden DOM element to have the correct size.
     //There is a bug in SCEditor width calculations for editors nested inside a hidden DOM element.
     $('.list-group-item').click( function() { $(window).resize(); });
-	});
+  }
+
+
+  function setJsonValue( completeData, trailID ){
+    killEditor( editor );
+    openTrailPage( completeData, trailID );
+  }
 
 	function createDropdown(){
-		$('#itemSelector').remove();
-//Create the quiz selector
-		var dropDown = "<div class='dropdown' id='itemSelector'><button class='btn btn-default btn-lg dropdown-toggle' type='button' data-toggle='dropdown' class='itemSelect'> Trail <span class='caret'></span></button><ul class='dropdown-menu'>";
 
+		$('#itemSelector').remove();
+
+    //Create the quiz selector
+		var dropDown = "<div class='dropdown' id='itemSelector'><button class='btn btn-default btn-lg dropdown-toggle' type='button' data-toggle='dropdown' class='itemSelect'> Trail <span class='caret'></span></button><ul class='dropdown-menu'>";
+    console.log( completeData.trails.length ); 
 		for( var i = 0; i< completeData.trails.length; i++ ){
 			dropDown = dropDown + "<li><a href='#' class='itemSelect'  trailid='"+i+"'>"+completeData.trails[i].name+"</a><a href='#' data-toggle='tooltip' title='Delete this quiz' class='itemDelete' trailid='"+i+"'><span class='glyphicon glyphicon-remove'></span> </a></li>";
 		}
@@ -467,13 +527,7 @@ function openTrailPage(){
 		$( '.itemSelect' ).on( 'click', function(){
 			tID = $(this).attr('trailid');
 			trailID = tID
-			if( tID == -1 ){
-				console.log("hit");
-				editor.destroy();
-				editor = new JSONEditor(element, {no_additional_properties:true, schema:trail_schema});
-			}else{
-        setJsonValue( trail_schema, completeData.trails[tID], editor )
-			}
+      setJsonValue( completeData, tID );
 		}); 
 
 		//Listen to the quiz selector.
@@ -484,9 +538,12 @@ function openTrailPage(){
 			}else{
 				tID = $(this).attr('trailid');
 				if( confirm( "Are you sure? The trail will be lost forever.\nConsider setting the trail property 'published' to false if you may wish to use the trail again.\nIf you click 'yes', the trail '" + completeData.trails[tID].name + "' will be deleted and you will be directed back to the home page."  )){
-					tID = $(this).attr('trailid');
-					completeData.trails.splice(tID,1);
-					createDropdown();
+
+          completeData.trails.splice(tID,1);
+          saveObject( filePath, completeData );
+
+          if( trailID == tID ) setJsonValue(completeData, 0); 
+					else createDropdown();
 				}
 			}
 		});
@@ -498,16 +555,15 @@ function openTrailPage(){
 	//On the trail page we have to first insert the form's details into the complete data set.
 	//If the trail is a new trail, we have to add the trail to the data set.
 	$('#save-changes').click( function(){
-		if( trailID == -1 ){
-			trailID = completeData.trails.length;
-			completeData.trails[trailID] = editor.getValue();
-			createDropdown();
-		}else{
-			completeData.trails[trailID] = editor.getValue();
-		}
-    console.log( completeData );
-		saveObject( filePath, completeData );
-		
+		  if( trailID == -1 ){
+			  trailID = completeData.trails.length;
+			  completeData.trails[trailID] = editor.getValue();
+			  createDropdown();
+		  }else{
+			  completeData.trails[trailID] = editor.getValue();
+		  }
+		  saveObject( filePath, completeData );
+      createDropdown();
 	});
 
 	//Enable the download JSON button. 
@@ -516,15 +572,12 @@ function openTrailPage(){
 	//Enable the revert to last save button.
 	$('#revert-last-save').click( function(){
 		if( confirm("Are you sure?\nYou will lose changes made since the last save.") ){
+
 			if( trailID==-1 ){
-        //If trying to revert to last save of a new trail, just empty the form.
-				editor.destroy();
-				editor = new JSONEditor(element, {no_additional_properties:true, schema:trail_schema})
+				setJsonValue( completeData, -1 );
 			}else{
 				$.getJSON(filePath, function(json) {
-						completeData = json;
-            setJsonValue( trail_schema, completeData.trails[trailID], editor )
-						createDropdown();	
+            setJsonValue( json, trailID );
 				});
 			}
 		}
@@ -535,10 +588,7 @@ function openTrailPage(){
 		if( confirm("Are you sure?\nThis will set the form's data back to factory settings.\nIF YOU THEN CLICK \"SAVE\", ALL PREVIOUSLY SAVED DATA CHANGES WILL BE LOST.") ){
 			//If the quiz is a new quiz, change the revert to orginal button to a "delete new quiz" button
 			$.getJSON("assets/data/original/TrailData.json", function(json) {
-				completeData = json;
-				trailID = 0;
-        setJsonValue( trail_schema, completeData.trails[trailID], editor )
-				createDropdown();	
+        setJsonValue( json, 0 );
 			});
 		}
 	});

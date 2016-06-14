@@ -107,7 +107,7 @@ $(function(){
 
 				// Building the breadcrumbs
 
-				breadcrumbsUrls = generateBreadcrumbs(nextDir);if( $.trim(response) != "success" ) alert(response);
+				breadcrumbsUrls = generateBreadcrumbs(nextDir);
 
 				filemanager.removeClass('searching');
 				filemanager.find('input[type=search]').val('').hide();
