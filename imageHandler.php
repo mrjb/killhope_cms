@@ -85,8 +85,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         echo "Sorry, your file is too large. ";
         $uploadOk = 0;
     }
-    // Allow certain file formats
-    if(!in_array($imageFileType, ["jpg", "JPG", "png", "PNG", "jpeg", "JPEG", "gif", "GIF"]) ) {
+    // Allow certain file formats 
+    $valid_files = array( "jpg", "JPG", "png", "PNG", "jpeg", "JPEG", "gif", "GIF" );
+    if(!in_array($imageFileType, $valid_files) ) {
         echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed. ";
         $uploadOk = 0;
     }
