@@ -120,17 +120,14 @@ if($_SERVER["REQUEST_METHOD"] == "DELETE"){
 
 if($_SERVER["REQUEST_METHOD"] == "GET"){
 
-  // Scan the images folder for all image files.
-  $response = scan($dir);
-
   // Output the directory listing as JSON
-  header('Content-type: application/json');
+  //header('Content-type: application/json');
 
   echo json_encode(array(
 	  "name" => "images",
 	  "type" => "folder",
 	  "path" => $dir,
-	  "items" => $response
+	  "items" => scan($dir)
   ));
 }
 ?>
