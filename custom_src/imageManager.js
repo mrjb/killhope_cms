@@ -377,13 +377,13 @@ $(function(){
           $(this).append("<span class='delete glyphicon glyphicon-trash'></span>");
           
           $('.delete').click( function(){
-             var path = $(this).siblings('a.files').attr('href');
+             var path = $(this).siblings('a.files').attr('title');
              if( confirm( "Are you sure you want to delete this image?\n" + path) ){
                
                $.ajax({
                   type: "DELETE",
                   url: "imageHandler.php",
-                  data: "path=" + path,
+                  data: "file_path=" + path,
                   success: function(msg){
                      if( $.trim(msg) != "success" ) alert(msg);
                      location.reload();

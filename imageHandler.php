@@ -1,14 +1,67 @@
 
 <?php
+
+$dir = "../../data/images";
+
+// This function scans the files folder recursively, and builds a large array
+function scan($dir){
+
+  $files = array();
+
+  // Is there actually such a folder/file?
+
+  if(file_exists($dir)){
+
+	  foreach(scandir($dir) as $f) {
+	
+		  if(!$f || $f[0] == '.') {
+			  continue; // Ignore hidden files
+		  }
+
+		  if(is_dir($dir . '/' . $f)) {
+
+			  // The path is a folder
+
+			  $files[] = array(
+				  "name" => $f,
+				  "type" => "folder",
+				  "path" => $dir . '/' . $f,
+				  "items" => scan($dir . '/' . $f) // Recursively get the contents of the folder
+			  );
+		  }
+		
+		  else {
+
+			  // It is a file
+
+			  $files[] = array(
+				  "name" => $f,
+				  "type" => "file",
+				  "path" => $dir . '/' . $f,
+				  "size" => filesize($dir . '/' . $f), // Gets the size of this file
+          "time" => filemtime($dir . '/' . $f) // Get the modification time.
+			  );
+		  }
+	  }
+
+  }
+
+  return $files;
+}
+
+function writeJSONObject($variable){
+  $newJsonString = json_encode($variable);
+  file_put_contents('../../data/images.json', $newJsonString);
+}
+
 error_log("Called with: " . $_SERVER["REQUEST_METHOD"] );
+
 if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     $target_dir = "../../data/images/";
     $target_file = $target_dir . basename($_FILES["file"]["name"]);
     $uploadOk = 1;
     $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
-
-
 
     // Check if image file is a actual image or fake image
     if(isset($_POST["submit"])) {
@@ -43,6 +96,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     // if everything is ok, try to upload file
     } else {
         if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
+            //Scan the images and write the detials to a jsonfile. 
+            writeJSONObject( scan($dir) );
             echo "success";
         } else {
             echo "Sorry, there was an error uploading your file: " . basename( $_FILES["file"]["name"]) ;
@@ -53,81 +108,29 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 if($_SERVER["REQUEST_METHOD"] == "DELETE"){
     
     parse_str(file_get_contents("php://input"));
-    if( unlink($path) ){
+    if( unlink($file_path) ){
+        //Scan the images and write the detials to a jsonfile. 
+        writeJSONObject( scan($dir) );
         echo "success";
     }else{
-        echo "Sorry, there was an error.  Your file [".$path."] has not been deleted.";
+        echo "Sorry, there was an error.  Your file [".$file_path."] has not been deleted.";
     }
 }
 
 if($_SERVER["REQUEST_METHOD"] == "GET"){
 
-  $path = "../../data/";
-$dir = "../../data/images";
+  // Scan the images folder for all image files.
+  $response = scan($dir);
 
+  // Output the directory listing as JSON
+  header('Content-type: application/json');
 
-// This function scans the files folder recursively, and builds a large array
-
-function scan($dir){
-
-	$files = array();
-
-	// Is there actually such a folder/file?
-
-	if(file_exists($dir)){
-	
-		foreach(scandir($dir) as $f) {
-		
-			if(!$f || $f[0] == '.') {
-				continue; // Ignore hidden files
-			}
-
-			if(is_dir($dir . '/' . $f)) {
-
-				// The path is a folder
-
-				$files[] = array(
-					"name" => $f,
-					"type" => "folder",
-					"path" => $dir . '/' . $f,
-					"items" => scan($dir . '/' . $f) // Recursively get the contents of the folder
-				);
-			}
-			
-			else {
-
-				// It is a file
-
-				$files[] = array(
-					"name" => $f,
-					"type" => "file",
-					"path" => $dir . '/' . $f,
-					"size" => filesize($dir . '/' . $f) // Gets the size of this file
-				);
-			}
-		}
-	
-	}
-
-	return $files;
-}
-
-
-// Run the recursive function 
-
-$response = scan($dir);
-
-
-// Output the directory listing as JSON
-
-header('Content-type: application/json');
-
-echo json_encode(array(
-	"name" => "images",
-	"type" => "folder",
-	"path" => $dir,
-	"items" => $response
-));
+  echo json_encode(array(
+	  "name" => "images",
+	  "type" => "folder",
+	  "path" => $dir,
+	  "items" => $response
+  ));
 }
 ?>
 
