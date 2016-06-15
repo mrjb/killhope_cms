@@ -499,6 +499,9 @@ function openTrailPage( data, id ){
     //Hacky hack hack to get the SCEditors created in a hidden DOM element to have the correct size.
     //There is a bug in SCEditor width calculations for editors nested inside a hidden DOM element.
     $('.list-group-item').click( function() { $(window).resize(); });
+
+    //Hacky hack hack to make the auto-generate qr poster button stand out a bit.
+    $("a[href*='qrPoster.php']").attr("style","margin-bottom: 10px; text-align: right; padding: 10px; text-decoration: none; color: white; background: grey none repeat scroll 0% 0%; display: inline-block; border-radius: 5px; float: right;");
   }
 
 
@@ -599,6 +602,8 @@ function openTrailPage( data, id ){
 			location.reload(); 
 		}
 	});
+
+ 
 	
 }
 
@@ -640,7 +645,7 @@ $('#trailsDat').click( function() {
 	openTrailPage( );
 });
 
-}); //End document.ready
+});//End document.ready
 
 
 		</script>

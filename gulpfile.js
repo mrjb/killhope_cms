@@ -39,9 +39,10 @@ gulp.task('jshint', function() {
 
 //TASK: JS Compiler
 gulp.task('js', ['jshint'], function() {
-	return gulp.src( mainBowerFiles().concat(['custom_src/*.js']) )
+	return gulp.src( mainBowerFiles()
+    .concat(['custom_src/*.js','bower_components/jquery-qrcode/dist/jquery-qrcode.js']) )
 		.pipe(filter('*.js'))
-//    .pipe(uglify())
+    //.pipe(uglify())
     .pipe(gulp.dest('assets/js/'));
 });
 

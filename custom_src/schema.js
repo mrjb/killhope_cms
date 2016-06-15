@@ -119,7 +119,17 @@ var trail_schema = {
           "format": "html",
           "options": { "wysiwyg": true }
         },
-        "qrCode":{"title": "QR Encoded Text", "type":"string"},
+        "qrCode":{
+          "title": "Unique QR Code Text (will be encoded as QR code and included in small print on the poster)", 
+          "type":"string",
+          "links": [
+            {
+              "rel": "View QR Code Poster",
+              "href": "qrPoster.php?qrcode={{self}}",
+              "class": "poster-link"
+            }
+          ]
+        },
         "info":{
           "title": "More Information (shown upon scanning QR code)",
           "type":"string",

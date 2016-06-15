@@ -20,6 +20,7 @@
     "json-editor": "~0.7.25",
     "SCEditor": "~1.4.7",
     "dropzone": "~4.3.0",
-    "featherlight": "~1.4.1"
+    "featherlight": "~1.4.1",
+    "jquery-qrcode": "~0.14.0"
   }
 }
