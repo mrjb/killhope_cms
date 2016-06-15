@@ -50,7 +50,7 @@ function scan($dir){
 }
 
 function writeJSONObject($variable){
-  $newJsonString = "images:" . json_encode($variable);
+  $newJsonString = "{images:" . json_encode($variable) . "}";
   file_put_contents('../../data/images.json', $newJsonString);
 }
 
