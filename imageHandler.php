@@ -91,6 +91,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
         $uploadOk = 0;
     }
+    //Check that there arn't any space in the file name.
+    if( strpos( basename($_FILES["file"]["name"], " " )){
+        echo "Sorry, the filename must not include spaces.";
+        $uploadOk = 0;
+    }
+
     // Check if $uploadOk is set to 0 by an error
     if ($uploadOk == 0) {
         echo "Your file was not uploaded. ";
