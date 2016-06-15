@@ -50,7 +50,7 @@ function scan($dir){
 }
 
 function writeJSONObject($variable){
-  $newJsonString = json_encode($variable);
+  $newJsonString = "images:" . json_encode($variable);
   file_put_contents('../../data/images.json', $newJsonString);
 }
 
@@ -70,7 +70,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             echo "File is an image - " . $check["mime"] . ". ";
             $uploadOk = 1;
         } else {
-            echo "File is not an image. ";
+            echo "File is not an image.";
             $uploadOk = 0;
         }
     }
@@ -88,7 +88,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     // Allow certain file formats 
     $valid_files = array( "jpg", "JPG", "png", "PNG", "jpeg", "JPEG", "gif", "GIF" );
     if(!in_array($imageFileType, $valid_files) ) {
-        echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed. ";
+        echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
         $uploadOk = 0;
     }
     // Check if $uploadOk is set to 0 by an error
@@ -110,7 +110,7 @@ if($_SERVER["REQUEST_METHOD"] == "DELETE"){
     
     parse_str(file_get_contents("php://input"));
     if( unlink($file_path) ){
-        //Scan the images and write the detials to a jsonfile. 
+        //Scan the images and write the details to a jsonfile. 
         writeJSONObject( scan($dir) );
         echo "success";
     }else{
