@@ -110,9 +110,9 @@
             if( width ) string += "width: " + width + "%;";
             if( height ) string += "height: "+ height + "%;";
             if( float == "left" || float == "right" ){
-              string += "float: " + float + "; margin: 10px;'></img>";
+              string += "float: " + float + "; margin: 10px;";
             }
-
+            string += "'></img>";
             $("#imageHtml", top.document).text( string );
 
         }
