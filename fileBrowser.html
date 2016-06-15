@@ -109,7 +109,9 @@
             var string = "<img src='" + path + "' style='";
             if( width ) string += "width: " + width + "%;";
             if( height ) string += "height: "+ height + "%;";
-            string += "float: " + float + "; margin: 10px;'></img>";
+            if( float == "left" || float == "right" ){
+              string += "float: " + float + "; margin: 10px;'></img>";
+            }
 
             $("#imageHtml", top.document).text( string );
 
