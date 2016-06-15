@@ -92,7 +92,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $uploadOk = 0;
     }
     //Check that there arn't any space in the file name.
-    if( strpos( basename($_FILES["file"]["name"], " " ))){
+    if( strpos( basename($_FILES["file"]["name"]), " " )){
         echo "Sorry, the filename must not include spaces.";
         $uploadOk = 0;
     }
