@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" moznomarginboxes mozdisallowselectionprint>
 	<head>
+
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 		<meta charset="utf-8">
 		<title>Killhope Android App Content Management</title>
@@ -9,11 +10,30 @@
 		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 		<link href="assets/css/bootstrap.min.css" rel="stylesheet">
 
-		<!--[if lt IE 9]>
-			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
-		<![endif]-->
-		<link href="assets/css/custom.css" rel="stylesheet">
     <style>
+    #poster-logo{
+      float: left;
+      max-height: 150px;
+    }
+
+    #poster-title{
+      line-height: 100px;
+      margin: 10px 0px;
+      font-size: 40px;
+    }
+
+    #qrcode{
+      margin: 30px 0 100px;
+      display: inline-block;
+    }
+    .poster-body{
+      text-align: center;
+    }
+    .museum-trails{
+      text-align: center;
+      margin-top: 50px;
+    }
+
     @page{margin:0px auto;}
     @media print{ 
       html, body{ height: 95% }
@@ -35,46 +55,42 @@
     </style>
 	</head>
 	<body>
+  <!-- Wrap all page content here -->
+  <div id="wrap">
 
-<!-- Wrap all page content here -->
-<div id="wrap">
-
-  <div class="container" > 
-	  <div class="col-xs-4">
-      <img src="assets/img/logo.png" id="poster-logo" class="img-responsive2"/>
+    <div class="container" > 
+	    <div class="col-xs-4">
+        <img src="assets/img/logo.png" id="poster-logo" class="img-responsive2"/>
+      </div>
+      <div class="col-xs-8">
+        <H2 id="poster-title" class="navbar-right"> <b>The Android App </b> </H2>
+      </div>
     </div>
-    <div class="col-xs-8">
-      <H2 id="poster-title" class="navbar-right"> <b>The Android App </b> </H2>
+
+    <div class="container poster-body" > 
+      <H2 class="museum-trails" >Museum Trail QR Code</H2>
+	    <div id="qrcode"></div>
+      <p class="lead">
+
+	      To download the Killhope Lead Mining Museum Android App, search for "Killhope" in the Google play store. Free wireless available in reception.
+
+      </p>
+    </div><!-- /.container -->
+
+  </div><!-- /.wrap -->
+  <footer class="footer">
+    <div class="container">
+      <div class="text-muted qr-text pull-right"> <?php echo $_GET['qrcode']; ?> </div>  
     </div>
-  </div>
-
-  <div class="container poster-body" > 
-    <H2 class="museum-trails" >Museum Trail QR Code</H2>
-	  <div id="qrcode"></div>
-    <p class="lead">
-	    To download the Killhope Lead Mining Museum Android App, search for "Killhope" in the Google play store. Free wireless available in reception.
-    </p>
-  </div><!-- /.container -->
-
-</div><!-- /.wrap -->
-
-
-
-<footer class="footer">
-  <div class="container">
-<div class="text-muted qr-text pull-right"> <?php echo $_GET['qrcode']; ?> </div>
-    
-  </div>
-</footer>
-
+  </footer>
 </body>
-<div id="imageHtml" style='display:none'></div>
 </html>
 
 <script src="assets/js/jquery.js" type="text/javascript"></script>
 <script src="assets/js/jquery-qrcode.js" type="text/javascript"></script>
+
 <script type="text/javascript">
-console.log( "hello" );
+
 $("#qrcode").qrcode({
   text:"<?php echo $_GET['qrcode']; ?>",
   size: 400,

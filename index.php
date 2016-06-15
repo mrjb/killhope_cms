@@ -616,7 +616,7 @@ function saveObject(filePath, jsonObject){
   $.ajax({
     type: 'POST',
     url: 'writeJSON.php',
-    data: 'json=' + json + '&file='+filePath,
+    data: { 'json': json , 'file': filePath },
     headers: {'Content-type':'application/x-www-form-urlencoded'},
     success: function(msg){
       if( $.trim(msg) != "success" ) alert(msg);
