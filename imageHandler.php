@@ -1,6 +1,6 @@
 
 <?php
-
+$MAX_FILE_SIZE = 1000000;
 $dir = "../../data/images";
 
 // This function scans the files folder recursively, and builds a large array
@@ -81,8 +81,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $uploadOk = 0;
     }
     // Check file size
-    if ($_FILES["file"]["size"] > 1000000) {
-        echo "Sorry, your file is too large. ";
+    if ($_FILES["file"]["size"] > $MAX_FILE_SIZE) {
+        $megabytes = $MAX_FILE_SIZE/1000000;
+        echo "Sorry, your file is too large. Maximum allowed file size: " . $megabytes . "MB";
         $uploadOk = 0;
     }
     // Allow certain file formats 
