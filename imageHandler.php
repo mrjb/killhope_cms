@@ -83,7 +83,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     // Check file size
     if ($_FILES["file"]["size"] > $MAX_FILE_SIZE) {
         $megabytes = $MAX_FILE_SIZE/1000000;
-        echo "Sorry, your file is too large. Maximum allowed file size: " . $megabytes . "MB";
+        echo "Sorry, your file is too large. Maximum allowed file size: " . $megabytes . "MB.\n";
         $uploadOk = 0;
     }
     // Allow certain file formats 
