@@ -59,8 +59,8 @@
       </div>
     </div>
     <div class="col-xs-12 col-md-2">
-      <div class="choose" onclick="choose(); return false;">
-        <span>Insert<br/> Image</span>
+      <div class="choose" onclick="return false;">
+        <span>Select an<br/> Image Below</span>
       </div>
     </div>
   
@@ -97,6 +97,8 @@
         });
         function selectImage(path){
             $('#imageSelector .selected').text( path );
+            $('.choose span').html( "Insert<br/> Image" );
+            $('.choose').attr('onClick', 'choose(); return false;');
         }
 
         function choose(){
