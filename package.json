@@ -21,8 +21,8 @@
     "gulp-watch": "^4.3.1",
     "imagemin-jpegoptim": "^4.0.0",
     "imagemin-optipng": "^4.3.0",
-    "imagemin-pngquant": "^4.1.2",
-    "main-bower-files": "^2.9.0",    
+    "imagemin-pngquant": "^5.1.0",
+    "main-bower-files": "^2.9.0",
     "yargs": "^3.15.0"
   },
   "scripts": {
