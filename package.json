@@ -21,13 +21,17 @@
     "gulp-watch": "^4.3.1",
     "imagemin-jpegoptim": "^4.0.0",
     "imagemin-optipng": "^4.3.0",
-    "imagemin-pngquant": "^4.1.2",
-    "main-bower-files": "^2.9.0",    
-    "yargs": "^3.15.0"
+    "imagemin-pngquant": "^5.1.0",
+    "main-bower-files": "^2.9.0",
+    "yargs": "^3.15.0",
+    "snyk": "^1.85.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "author": "Jonathan Berry <jonathan.s.berry@googlemail.com>",
-  "license": "ISC"
+  "license": "ISC",
+  "snyk": true
 }
